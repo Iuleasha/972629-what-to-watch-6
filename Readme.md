@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть» [![Build status][travis-image]][travis-url]
 
 * Студент: [Юлия Калганова](https://up.htmlacademy.ru/react/6/user/972629).
-* Наставник: `Неизвестно`.
+* Наставник: [Андрей Карякин](https://up.htmlacademy.ru/react/6/user/133011).
 
 ---
 
