@@ -1,6 +1,20 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import SmallMovieCard from '../small-movie-card/small-movie-card';
-import PropTypes from 'prop-types';
+
+const AVATAR_SIZE = 63;
+
+const PosterSize = {
+  WIDTH: 218,
+  HEIGHT: 327,
+};
+
+const MovieCardButtonSize = {
+  WIDTH: 19,
+  HEIGHT: 20,
+};
+
+const MOVIES = [...Array(20)];
 
 const MainPage = ({movieCardInfo}) => {
   return (<>
@@ -19,31 +33,34 @@ const MainPage = ({movieCardInfo}) => {
         </div>
         <div className="user-block">
           <div className="user-block__avatar">
-            <img src="img/avatar.jpg" alt="User avatar" width={63} height={63}/>
+            <img src="img/avatar.jpg" alt="User avatar" width={AVATAR_SIZE} height={AVATAR_SIZE}/>
           </div>
         </div>
       </header>
       <div className="movie-card__wrap">
         <div className="movie-card__info">
           <div className="movie-card__poster">
-            <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width={218}
-              height={327}/>
+            <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster"
+              width={PosterSize.WIDTH}
+              height={PosterSize.HEIGHT}/>
           </div>
           <div className="movie-card__desc">
-            <h2 className="movie-card__title">{movieCardInfo.title}</h2>
+            <h2 className="movie-card__title">{movieCardInfo.TITLE}</h2>
             <p className="movie-card__meta">
-              <span className="movie-card__genre">{movieCardInfo.genre}</span>
-              <span className="movie-card__year">{movieCardInfo.releaseDate}</span>
+              <span className="movie-card__genre">{movieCardInfo.GENRE}</span>
+              <span className="movie-card__year">{movieCardInfo.RELEASE_DATE}</span>
             </p>
             <div className="movie-card__buttons">
               <button className="btn btn--play movie-card__button" type="button">
-                <svg viewBox="0 0 19 19" width={19} height={19}>
+                <svg viewBox={`0 0 ${MovieCardButtonSize.WIDTH} ${MovieCardButtonSize.WIDTH}`}
+                  width={MovieCardButtonSize.WIDTH} height={MovieCardButtonSize.WIDTH}>
                   <use xlinkHref="#play-s"/>
                 </svg>
                 <span>Play</span>
               </button>
               <button className="btn btn--list movie-card__button" type="button">
-                <svg viewBox="0 0 19 20" width={19} height={20}>
+                <svg viewBox={`0 0 ${MovieCardButtonSize.WIDTH} ${MovieCardButtonSize.HEIGHT}`}
+                  width={MovieCardButtonSize.WIDTH} height={MovieCardButtonSize.HEIGHT}>
                   <use xlinkHref="#add"/>
                 </svg>
                 <span>My list</span>
@@ -89,7 +106,7 @@ const MainPage = ({movieCardInfo}) => {
           </li>
         </ul>
         <div className="catalog__movies-list">
-          {[...Array(20)].map((item) => <SmallMovieCard key={item}/>)}
+          {MOVIES.map((item) => <SmallMovieCard key={item}/>)}
         </div>
         <div className="catalog__more">
           <button className="catalog__button" type="button">Show more</button>
@@ -113,9 +130,9 @@ const MainPage = ({movieCardInfo}) => {
 
 MainPage.propTypes = {
   movieCardInfo: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    releaseDate: PropTypes.number.isRequired,
+    TITLE: PropTypes.string.isRequired,
+    GENRE: PropTypes.string.isRequired,
+    RELEASE_DATE: PropTypes.number.isRequired,
   }),
 };
 

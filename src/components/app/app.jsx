@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import MainPage from '../main/main';
-import PropTypes from 'prop-types';
 
 const App = ({movieCardInfo}) => {
   return <MainPage movieCardInfo={movieCardInfo}/>;
@@ -8,9 +8,9 @@ const App = ({movieCardInfo}) => {
 
 App.propTypes = {
   movieCardInfo: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    releaseDate: PropTypes.number.isRequired,
+    TITLE: PropTypes.string.isRequired,
+    GENRE: PropTypes.string.isRequired,
+    RELEASE_DATE: PropTypes.number.isRequired,
   }),
 };
 

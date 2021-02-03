@@ -2,15 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
 
-const movieCardInfo = {
-  title: `The Grand Budapest Hotel`,
-  genre: `Drama`,
-  releaseDate: 2014,
+const MovieCardInfo = {
+  TITLE: `The Grand Budapest Hotel`,
+  GENRE: `Drama`,
+  RELEASE_DATE: 2014,
 };
 
 ReactDOM.render(
-    <App
-      movieCardInfo={movieCardInfo}
-    />,
+    <App movieCardInfo={MovieCardInfo}/>,
     document.querySelector(`#root`),
 );
