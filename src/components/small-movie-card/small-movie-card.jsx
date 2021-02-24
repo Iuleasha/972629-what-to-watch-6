@@ -1,22 +1,27 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+import {filmType, onHover} from '../../types/types';
 
 const ImageSize = {
   WIDTH: 280,
   HEIGHT: 175,
 };
 
-const SmallMovieCard = () => {
+const SmallMovieCard = ({film, onHoverCallback}) => {
   return (
-    <article className="small-movie-card catalog__movies-card">
-      <div className="small-movie-card__image">
-        <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-          alt="Fantastic Beasts: The Crimes of Grindelwald" width={ImageSize.WIDTH} height={ImageSize.HEIGHT}/>
-      </div>
+    <article className="small-movie-card catalog__movies-card" onMouseEnter={()=>onHoverCallback(film.id)}>
+      <Link to={`/films/${film.id}`}>
+        <div className="small-movie-card__image">
+          <img src={film.previewImage} alt={film.name} width={ImageSize.WIDTH} height={ImageSize.HEIGHT}/>
+        </div>
+      </Link>
       <h3 className="small-movie-card__title">
-        <a className="small-movie-card__link" href="movie-page.html">Fantastic Beasts: The Crimes of Grindelwald</a>
+        <Link className="small-movie-card__link" to={`/films/${film.id}`}>{film.name}</Link>
       </h3>
     </article>
   );
 };
+
+SmallMovieCard.propTypes = {film: filmType, onHoverCallback: onHover};
 
 export default SmallMovieCard;

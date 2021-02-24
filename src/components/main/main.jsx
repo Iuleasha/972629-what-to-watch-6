@@ -1,46 +1,23 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import SmallMovieCard from '../small-movie-card/small-movie-card';
+import Footer from '../footer/footer';
+import Header from '../header/header';
+import {HeaderMode, PosterSize, MovieCardButtonSize} from '../../utils/constant/constant';
+import MovieList from '../movie-list/movie-list';
+import {filmsType, movieCardType} from '../../types/types';
 
-const AVATAR_SIZE = 63;
 
-const PosterSize = {
-  WIDTH: 218,
-  HEIGHT: 327,
-};
-
-const MovieCardButtonSize = {
-  WIDTH: 19,
-  HEIGHT: 20,
-};
-
-const MOVIES = [...Array(20)];
-
-const MainPage = ({movieCardInfo}) => {
+const MainPage = ({movieCardInfo, films}) => {
   return (<>
     <section className="movie-card">
       <div className="movie-card__bg">
-        <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+        <img src={films[0].backgroundImage} alt={films[0].name}/>
       </div>
       <h1 className="visually-hidden">WTW</h1>
-      <header className="page-header movie-card__head">
-        <div className="logo">
-          <a className="logo__link">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
-        <div className="user-block">
-          <div className="user-block__avatar">
-            <img src="img/avatar.jpg" alt="User avatar" width={AVATAR_SIZE} height={AVATAR_SIZE}/>
-          </div>
-        </div>
-      </header>
+      <Header type={HeaderMode.MOVIE_CARD}/>
       <div className="movie-card__wrap">
         <div className="movie-card__info">
           <div className="movie-card__poster">
-            <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster"
+            <img src={films[0].posterImage} alt={`${films[0].name} poster`}
               width={PosterSize.WIDTH}
               height={PosterSize.HEIGHT}/>
           </div>
@@ -105,35 +82,19 @@ const MainPage = ({movieCardInfo}) => {
             <a href="#" className="catalog__genres-link">Thrillers</a>
           </li>
         </ul>
-        <div className="catalog__movies-list">
-          {MOVIES.map((item) => <SmallMovieCard key={item}/>)}
-        </div>
+
+        <MovieList films={films}/>
+
         <div className="catalog__more">
           <button className="catalog__button" type="button">Show more</button>
         </div>
       </section>
-      <footer className="page-footer">
-        <div className="logo">
-          <a className="logo__link logo__link--light">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
-        <div className="copyright">
-          <p>© 2019 What to watch Ltd.</p>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   </>);
 };
 
-MainPage.propTypes = {
-  movieCardInfo: PropTypes.shape({
-    TITLE: PropTypes.string.isRequired,
-    GENRE: PropTypes.string.isRequired,
-    RELEASE_DATE: PropTypes.number.isRequired,
-  }),
-};
+MainPage.propTypes = {movieCardInfo: movieCardType, films: filmsType};
+
 
 export default MainPage;
