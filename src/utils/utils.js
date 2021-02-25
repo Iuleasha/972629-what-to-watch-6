@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export const formatTotalDuration = (mins) => {
   let h = Math.floor(mins / 60);
   let m = mins % 60;
@@ -19,3 +21,5 @@ export const generateRating = (rating) => {
     return `Awesome.`;
   }
 };
+
+export const formatDate = (date, format) => dayjs(date).format(format);

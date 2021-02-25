@@ -1,6 +1,7 @@
 import React from 'react';
 import reviews from '../../mocks/reviews';
 import {reviewType} from '../../types/types';
+import {formatDate} from '../../utils/utils';
 
 const Reviews = () => {
   let reviewsColLeft = [];
@@ -24,7 +25,7 @@ const Reviews = () => {
 
               <footer className="review__details">
                 <cite className="review__author">{item.user.name}</cite>
-                <time className="review__date" dateTime={item.date}>{item.date}</time>
+                <time className="review__date" dateTime={formatDate(item.date, `MMMM D, YYYY`)}>{formatDate(item.date, `MMMM D, YYYY`)}</time>
               </footer>
             </blockquote>
 
@@ -38,7 +39,7 @@ const Reviews = () => {
 
               <footer className="review__details">
                 <cite className="review__author">{item.user.name}</cite>
-                <time className="review__date" dateTime={item.date}>{item.date}</time>
+                <time className="review__date" dateTime={formatDate(item.date, `MMMM D, YYYY`)}>{formatDate(item.date, `MMMM D, YYYY`)}</time>
               </footer>
             </blockquote>
 
