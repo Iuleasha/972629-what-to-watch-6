@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
+import films from './mocks/films';
 
 const MovieCardInfo = {
   TITLE: `The Grand Budapest Hotel`,
@@ -9,6 +10,7 @@ const MovieCardInfo = {
 };
 
 ReactDOM.render(
-    <App movieCardInfo={MovieCardInfo}/>,
+    <App movieCardInfo={MovieCardInfo}
+      films={films}/>,
     document.querySelector(`#root`),
 );

@@ -1,36 +1,36 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {filmsType, movieCardType} from '../../types/types';
 import AddReview from '../add-review/add-review';
 import Film from '../film/film';
 import MainPage from '../main/main';
 import MyList from '../my-list/my-list';
+import PageNotFound from '../page-not-found/page-not-found';
 import Player from '../player/player';
 import SignIn from '../sign-in/sign-in';
-import PageNotFound from '../page-not-found/page-not-found';
 
-
-const App = ({movieCardInfo}) => {
+const App = ({movieCardInfo, films}) => {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainPage movieCardInfo={movieCardInfo}/>
+          <MainPage movieCardInfo={movieCardInfo}
+            films={films}/>
         </Route>
         <Route exact path="/login">
           <SignIn/>
         </Route>
         <Route exact path="/mylist">
-          <MyList/>
+          <MyList films={films}/>
         </Route>
         <Route exact path="/films/:id">
-          <Film/>
+          <Film films={films}/>
         </Route>
         <Route exact path="/films/:id/review">
-          <AddReview/>
+          <AddReview films = {films}/>
         </Route>
         <Route exact path="/player/:id">
-          <Player/>
+          <Player films={films}/>
         </Route>
         <Route>
           <PageNotFound/>
@@ -40,12 +40,6 @@ const App = ({movieCardInfo}) => {
   );
 };
 
-App.propTypes = {
-  movieCardInfo: PropTypes.shape({
-    TITLE: PropTypes.string.isRequired,
-    GENRE: PropTypes.string.isRequired,
-    RELEASE_DATE: PropTypes.number.isRequired,
-  }),
-};
+App.propTypes = {movieCardInfo: movieCardType, films: filmsType};
 
 export default App;

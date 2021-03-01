@@ -1,14 +1,20 @@
 import React from 'react';
+import {useParams, useHistory} from 'react-router-dom';
+import {filmsType} from '../../types/types';
 
 const MAX_PLAYER_PROGRESS = 100;
 const TEMP_VALUE = 30;
 const PLAY_BUTTON_SIZE = 19;
 const FULL_SCREEN_BUTTON_SIZE = 27;
 
-const Player = () => {
+const Player = ({films}) => {
+  const {id} = useParams();
+  const {push} = useHistory();
+  const film = films.find((item) => String(item.id) === id);
+
   return (<div className="player">
-    <video src="#" className="player__video" poster="img/player-poster.jpg"/>
-    <button type="button" className="player__exit">Exit</button>
+    <video src="#" className="player__video" poster={film.posterImage}/>
+    <button type="button" className="player__exit" onClick={()=>push(`/films/${id}`)}>Exit</button>
     <div className="player__controls">
       <div className="player__controls-row">
         <div className="player__time">
@@ -36,5 +42,6 @@ const Player = () => {
   </div>
   );
 };
+Player.propTypes = {films: filmsType};
 
 export default Player;
