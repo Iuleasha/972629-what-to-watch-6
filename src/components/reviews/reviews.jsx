@@ -1,6 +1,6 @@
 import React from 'react';
 import reviews from '../../mocks/reviews';
-import {reviewType} from '../../types/types';
+import {ReviewType} from '../../types/types';
 import {formatDate} from '../../utils/utils';
 
 const Reviews = () => {
@@ -51,6 +51,6 @@ const Reviews = () => {
   );
 };
 
-Reviews.propTypes = {filmId: reviewType};
+Reviews.propTypes = {filmId: ReviewType};
 
 export default Reviews;

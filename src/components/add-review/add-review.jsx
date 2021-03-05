@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useParams} from 'react-router-dom';
-import {filmsType} from '../../types/types';
+import {FilmsType} from '../../types/types';
 import ReviewForm from '../add-review-form/add-review-form';
 import Header from '../header/header';
 import {PosterSize} from '../../utils/constant/constant';
@@ -45,6 +45,6 @@ const AddReview = ({films}) => {
   );
 };
 
-AddReview.propTypes = {films: filmsType};
+AddReview.propTypes = {films: FilmsType};
 
 export default AddReview;

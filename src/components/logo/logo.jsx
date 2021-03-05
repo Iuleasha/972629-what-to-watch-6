@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {logoLight} from '../../types/types';
+import {LogoLight} from '../../types/types';
 
 const Logo = ({isLight}) => {
   const logoClass = isLight ? `logo__link logo__link--light` : `logo__link`;
@@ -16,6 +16,6 @@ const Logo = ({isLight}) => {
   );
 };
 
-Logo.propTypes = {isLight: logoLight};
+Logo.propTypes = {isLight: LogoLight};
 
 export default Logo;

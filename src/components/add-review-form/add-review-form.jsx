@@ -1,5 +1,5 @@
 import React from 'react';
-import {handleSubmitType, handleFieldChangeType} from '../../types/types';
+import {HandleSubmitType, HandleFieldChangeType} from '../../types/types';
 
 const MIN_COMMENT_LENGTH = 50;
 const MAX_COMMENT_LENGTH = 400;
@@ -33,6 +33,6 @@ const ReviewForm = ({handleSubmit, handleFieldChange}) => {
   );
 };
 
-ReviewForm.propTypes = {handleSubmit: handleSubmitType, handleFieldChange: handleFieldChangeType};
+ReviewForm.propTypes = {handleSubmit: HandleSubmitType, handleFieldChange: HandleFieldChangeType};
 
 export default ReviewForm;

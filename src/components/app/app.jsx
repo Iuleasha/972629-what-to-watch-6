@@ -1,6 +1,6 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import {filmsType, movieCardType} from '../../types/types';
+import {FilmsType, MovieCardType} from '../../types/types';
 import AddReview from '../add-review/add-review';
 import Film from '../film/film';
 import MainPage from '../main/main';
@@ -40,6 +40,6 @@ const App = ({movieCardInfo, films}) => {
   );
 };
 
-App.propTypes = {movieCardInfo: movieCardType, films: filmsType};
+App.propTypes = {movieCardInfo: MovieCardType, films: FilmsType};
 
 export default App;

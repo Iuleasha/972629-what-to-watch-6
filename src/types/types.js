@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export const filmType = PropTypes.shape({
+export const FilmType = PropTypes.shape({
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   posterImage: PropTypes.string.isRequired,
@@ -21,27 +21,27 @@ export const filmType = PropTypes.shape({
   isFavorite: PropTypes.bool,
 });
 
-export const filmsType = PropTypes.arrayOf(filmType);
+export const FilmsType = PropTypes.arrayOf(FilmType);
 
-export const movieCardType = PropTypes.shape({
+export const MovieCardType = PropTypes.shape({
   TITLE: PropTypes.string.isRequired,
   GENRE: PropTypes.string.isRequired,
   RELEASE_DATE: PropTypes.number.isRequired,
 });
 
-export const reviewType = PropTypes.number.isRequired;
+export const ReviewType = PropTypes.number.isRequired;
 
-export const logoLight = PropTypes.bool;
+export const LogoLight = PropTypes.bool;
 
-export const headerTitleType = PropTypes.string;
-export const breadcrumbsType = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+export const HeaderTitleType = PropTypes.string;
+export const BreadcrumbsType = PropTypes.shape({
+  NAME: PropTypes.string.isRequired,
+  ID: PropTypes.string.isRequired,
 });
 
-export const headerClass = PropTypes.string;
-export const onHover = PropTypes.func.isRequired;
+export const HeaderClass = PropTypes.string;
+export const OnHover = PropTypes.func.isRequired;
 
-export const handleSubmitType = PropTypes.func.isRequired;
-export const handleFieldChangeType = PropTypes.func.isRequired;
+export const HandleSubmitType = PropTypes.func.isRequired;
+export const HandleFieldChangeType = PropTypes.func.isRequired;
 

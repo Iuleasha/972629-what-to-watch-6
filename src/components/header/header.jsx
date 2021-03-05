@@ -1,5 +1,5 @@
 import React from 'react';
-import {breadcrumbsType, headerClass, headerTitleType} from '../../types/types';
+import {BreadcrumbsType, HeaderClass, HeaderTitleType} from '../../types/types';
 import Logo from '../logo/logo';
 import {Link} from 'react-router-dom';
 
@@ -38,6 +38,6 @@ const Header = ({title, breadcrumbs, type}) => {
   );
 };
 
-Header.propTypes = {title: headerTitleType, breadcrumbs: breadcrumbsType, type: headerClass};
+Header.propTypes = {title: HeaderTitleType, breadcrumbs: BreadcrumbsType, type: HeaderClass};
 
 export default Header;
