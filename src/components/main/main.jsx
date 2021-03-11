@@ -3,7 +3,7 @@ import Footer from '../footer/footer';
 import Header from '../header/header';
 import {HeaderMode, PosterSize, MovieCardButtonSize} from '../../utils/constant/constant';
 import MovieList from '../movie-list/movie-list';
-import {filmsType, movieCardType} from '../../types/types';
+import {FilmsType, MovieCardType} from '../../types/types';
 
 
 const MainPage = ({movieCardInfo, films}) => {
@@ -94,7 +94,7 @@ const MainPage = ({movieCardInfo, films}) => {
   </>);
 };
 
-MainPage.propTypes = {movieCardInfo: movieCardType, films: filmsType};
+MainPage.propTypes = {movieCardInfo: MovieCardType, films: FilmsType};
 
 
 export default MainPage;

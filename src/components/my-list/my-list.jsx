@@ -1,5 +1,5 @@
 import React from 'react';
-import {filmsType} from '../../types/types';
+import {FilmsType} from '../../types/types';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import MovieList from '../movie-list/movie-list';
@@ -18,5 +18,5 @@ const MyList = ({films}) => {
     <Footer/>
   </div>);
 };
-MyList.propTypes = {films: filmsType};
+MyList.propTypes = {films: FilmsType};
 export default MyList;

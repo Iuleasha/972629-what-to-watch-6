@@ -1,5 +1,5 @@
 import React from 'react';
-import {filmType} from '../../types/types';
+import {FilmType} from '../../types/types';
 import {formatTotalDuration} from '../../utils/utils';
 const Details = ({film}) => {
 
@@ -37,5 +37,5 @@ const Details = ({film}) => {
   );
 };
 
-Details.propTypes = {film: filmType};
+Details.propTypes = {film: FilmType};
 export default Details;

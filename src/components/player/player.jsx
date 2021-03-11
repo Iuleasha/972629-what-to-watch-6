@@ -1,6 +1,6 @@
 import React from 'react';
 import {useParams, useHistory} from 'react-router-dom';
-import {filmsType} from '../../types/types';
+import {FilmsType} from '../../types/types';
 
 const MAX_PLAYER_PROGRESS = 100;
 const TEMP_VALUE = 30;
@@ -42,6 +42,6 @@ const Player = ({films}) => {
   </div>
   );
 };
-Player.propTypes = {films: filmsType};
+Player.propTypes = {films: FilmsType};
 
 export default Player;

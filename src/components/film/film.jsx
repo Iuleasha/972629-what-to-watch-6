@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Link, useParams, useHistory} from 'react-router-dom';
-import {filmsType} from '../../types/types';
+import {FilmsType} from '../../types/types';
 import Details from '../details/details';
 import Footer from '../footer/footer';
 import Header from '../header/header';
@@ -88,6 +88,6 @@ const Film = ({films}) => {
   </>);
 };
 
-Film.propTypes = {films: filmsType};
+Film.propTypes = {films: FilmsType};
 
 export default Film;

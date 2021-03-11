@@ -1,5 +1,5 @@
 import React from 'react';
-import {filmType} from '../../types/types';
+import {FilmType} from '../../types/types';
 import {generateRating} from '../../utils/utils';
 
 
@@ -26,5 +26,5 @@ const Overview = ({film}) => {
   );
 };
 
-Overview.propTypes = {film: filmType};
+Overview.propTypes = {film: FilmType};
 export default Overview;
