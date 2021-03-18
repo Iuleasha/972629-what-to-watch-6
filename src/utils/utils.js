@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {genresArray} from '../components/catalog-genres/catalog-genres';
+import {GENRES_ARRAY} from './constant/constant';
 
 export const formatTotalDuration = (mins) => {
   let h = Math.floor(mins / 60);
@@ -29,4 +29,5 @@ const genresToObject = (acc, {title, type}) => ({
   ...{[type]: title}
 });
 
-export const genresItem = genresArray.reduce(genresToObject, {});
+
+export const genresItem = GENRES_ARRAY.reduce(genresToObject, {});

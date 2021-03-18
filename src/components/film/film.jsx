@@ -1,22 +1,20 @@
-import React, {useState, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {FilmsType} from '../../types/types';
-import Details from '../details/details';
+import {HeaderMode, MovieCardButtonSize} from '../../utils/constant/constant';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import MovieList from '../movie-list/movie-list';
-import Overview from '../overview/overview';
+import PageNotFound from '../page-not-found/page-not-found';
 import PlayButton from '../play-button/play-button';
-import Reviews from '../reviews/reviews';
-import {HeaderMode, MovieCardButtonSize} from '../../utils/constant/constant';
+import Tabs from '../tabs/tabs';
 
 const Film = ({films}) => {
-  const navItems = [`Overview`, `Details`, `Reviews`];
   const {id} = useParams();
   const film = useMemo(() => films.find((item) => String(item.id) === id), [id]);
+  const likeThisFilms = film && films.filter((item) => item.genre === film.genre && item.id !== film.id).sort(() => Math.random() - 0.5).slice(0, 4);
 
-  const [navItem, switchNav] = useState(navItems[0]);
-  return (<>
+  return (film ? <>
     <section className="movie-card movie-card--full">
       <div className="movie-card__hero">
         <div className="movie-card__bg">
@@ -52,34 +50,18 @@ const Film = ({films}) => {
             <img src={film.posterImage} alt={`${film.name} poster`} width={218}
               height={327}/>
           </div>
-          <div className="movie-card__desc">
-            <nav className="movie-nav movie-card__nav">
-              <ul className="movie-nav__list">
-                {navItems.map((item, index) => (<li key={item + index}
-                  className={`movie-nav__item ${navItem === item ? `movie-nav__item--active` : ``}`}>
-                  <a href="#" className="movie-nav__link" onClick={(event) => {
-                    event.preventDefault();
-                    switchNav(item);
-                  }}>{item}</a>
-                </li>))}
-              </ul>
-            </nav>
-            {navItem === `Overview` && <Overview film={film}/>}
-            {navItem === `Details` && <Details film={film}/>}
-            {navItem === `Reviews` && <Reviews filmId={film.id}/>}
-          </div>
+          <Tabs film={film}/>
         </div>
       </div>
     </section>
     <div className="page-content">
-      <section className="catalog catalog--like-this">
+      {likeThisFilms.length > 0 && <section className="catalog catalog--like-this">
         <h2 className="catalog__title">More like this</h2>
-        <MovieList films={films}/>
-      </section>
+        <MovieList films={likeThisFilms}/>
+      </section>}
       <Footer/>
     </div>
-
-  </>);
+  </> : <PageNotFound/>);
 };
 
 Film.propTypes = {films: FilmsType};
