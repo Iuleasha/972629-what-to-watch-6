@@ -40,7 +40,9 @@ export const BreadcrumbsType = PropTypes.shape({
 });
 
 export const HeaderClass = PropTypes.string;
-export const OnHover = PropTypes.func.isRequired;
+export const OnSelectGenre = PropTypes.func.isRequired;
+export const ActiveFilter = PropTypes.string.isRequired;
+export const ActiveGenre = PropTypes.string.isRequired;
 
 export const HandleSubmitType = PropTypes.func.isRequired;
 export const HandleFieldChangeType = PropTypes.func.isRequired;

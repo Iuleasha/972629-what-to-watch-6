@@ -1,22 +1,21 @@
-import React, {useState} from 'react';
-import {Link, useParams, useHistory} from 'react-router-dom';
+import React, {useState, useMemo} from 'react';
+import {Link, useParams} from 'react-router-dom';
 import {FilmsType} from '../../types/types';
 import Details from '../details/details';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import MovieList from '../movie-list/movie-list';
 import Overview from '../overview/overview';
+import PlayButton from '../play-button/play-button';
 import Reviews from '../reviews/reviews';
 import {HeaderMode, MovieCardButtonSize} from '../../utils/constant/constant';
 
 const Film = ({films}) => {
   const navItems = [`Overview`, `Details`, `Reviews`];
   const {id} = useParams();
-  const {push} = useHistory();
-  const film = films.find((item) => String(item.id) === id);
+  const film = useMemo(() => films.find((item) => String(item.id) === id), [id]);
 
   const [navItem, switchNav] = useState(navItems[0]);
-
   return (<>
     <section className="movie-card movie-card--full">
       <div className="movie-card__hero">
@@ -34,12 +33,7 @@ const Film = ({films}) => {
             </p>
             <div className="movie-card__buttons">
 
-              <button className="btn btn--play movie-card__button" type="button" onClick={()=>push(`/player/${film.id}`)}>
-                <svg viewBox="0 0 19 19" width={MovieCardButtonSize.WIDTH} height={MovieCardButtonSize.WIDTH}>
-                  <use xlinkHref="#play-s"/>
-                </svg>
-                <span>Play</span>
-              </button>
+              <PlayButton id={film.id}/>
 
               <button className="btn btn--list movie-card__button" type="button">
                 <svg viewBox="0 0 19 20" width={MovieCardButtonSize.WIDTH} height={MovieCardButtonSize.HEIGHT}>

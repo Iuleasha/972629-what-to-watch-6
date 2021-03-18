@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import {genresArray} from '../components/catalog-genres/catalog-genres';
 
 export const formatTotalDuration = (mins) => {
   let h = Math.floor(mins / 60);
@@ -23,3 +24,9 @@ export const generateRating = (rating) => {
 };
 
 export const formatDate = (date, format) => dayjs(date).format(format);
+const genresToObject = (acc, {title, type}) => ({
+  ...acc,
+  ...{[type]: title}
+});
+
+export const genresItem = genresArray.reduce(genresToObject, {});

@@ -1,12 +1,18 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/action';
+import {ActiveGenre, FilmsType, MovieCardType, OnSelectGenre} from '../../types/types';
+import {HeaderMode, MovieCardButtonSize, PosterSize} from '../../utils/constant/constant';
+import CatalogGenres from '../catalog-genres/catalog-genres';
 import Footer from '../footer/footer';
 import Header from '../header/header';
-import {HeaderMode, PosterSize, MovieCardButtonSize} from '../../utils/constant/constant';
 import MovieList from '../movie-list/movie-list';
-import {FilmsType, MovieCardType} from '../../types/types';
+import PlayButton from '../play-button/play-button';
 
 
-const MainPage = ({movieCardInfo, films}) => {
+const MainPage = (props) => {
+  const {movieCardInfo, films, onSelectGenre, genre} = props;
+
   return (<>
     <section className="movie-card">
       <div className="movie-card__bg">
@@ -28,13 +34,8 @@ const MainPage = ({movieCardInfo, films}) => {
               <span className="movie-card__year">{movieCardInfo.RELEASE_DATE}</span>
             </p>
             <div className="movie-card__buttons">
-              <button className="btn btn--play movie-card__button" type="button">
-                <svg viewBox={`0 0 ${MovieCardButtonSize.WIDTH} ${MovieCardButtonSize.WIDTH}`}
-                  width={MovieCardButtonSize.WIDTH} height={MovieCardButtonSize.WIDTH}>
-                  <use xlinkHref="#play-s"/>
-                </svg>
-                <span>Play</span>
-              </button>
+              <PlayButton id={films[0].id}/>
+
               <button className="btn btn--list movie-card__button" type="button">
                 <svg viewBox={`0 0 ${MovieCardButtonSize.WIDTH} ${MovieCardButtonSize.HEIGHT}`}
                   width={MovieCardButtonSize.WIDTH} height={MovieCardButtonSize.HEIGHT}>
@@ -50,39 +51,8 @@ const MainPage = ({movieCardInfo, films}) => {
     <div className="page-content">
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <ul className="catalog__genres-list">
-          <li className="catalog__genres-item catalog__genres-item--active">
-            <a href="#" className="catalog__genres-link">All genres</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Comedies</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Crime</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Documentary</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Dramas</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Horror</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Kids &amp; Family</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Romance</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Sci-Fi</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Thrillers</a>
-          </li>
-        </ul>
 
+        <CatalogGenres onSelectGenre={onSelectGenre} activeFilter={genre}/>
         <MovieList films={films}/>
 
         <div className="catalog__more">
@@ -94,7 +64,18 @@ const MainPage = ({movieCardInfo, films}) => {
   </>);
 };
 
-MainPage.propTypes = {movieCardInfo: MovieCardType, films: FilmsType};
+MainPage.propTypes = {movieCardInfo: MovieCardType, films: FilmsType, onSelectGenre: OnSelectGenre, genre: ActiveGenre};
 
+const mapStateToProps = (state) => ({
+  genre: state.genre,
+  films: state.films,
+});
 
-export default MainPage;
+const mapDispatchToProps = (dispatch) => ({
+  onSelectGenre(type) {
+    dispatch(ActionCreator.setFilter(type));
+  },
+});
+
+export {MainPage};
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

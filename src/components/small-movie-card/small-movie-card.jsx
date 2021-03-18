@@ -1,35 +1,36 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {Link} from 'react-router-dom';
-import {FilmType, OnHover} from '../../types/types';
+import {FilmType} from '../../types/types';
 import VideoPlayer from '../video-player/video-player';
 
 const ImageSize = {
   WIDTH: 280,
   HEIGHT: 175,
 };
+const PLAYBACK_DELAY = 1000;
 
 const SmallMovieCard = (props) => {
-  const {film, onHoverCallback} = props;
+  const {film} = props;
   const [isPreviewStart, showPreview] = useState(false);
-  const [timer, setTimer] = useState(0);
+  const timer = useRef(null);
 
-  const handleMouseEnter = () => {
-    onHoverCallback(film.id);
-    setTimer(setTimeout(() => showPreview(true), 1000));
-  };
+  const startVideoPlayback = useCallback(() => {
+    timer.current = null;
+    showPreview(true);
+  }, [showPreview]);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     showPreview(false);
-    setTimer(0);
-    clearTimeout(timer);
-    onHoverCallback();
-  };
+    clearTimeout(timer.current);
+    timer.current = null;
+  }, [showPreview]);
 
-  useEffect(() => {
-    return () => {
-      clearTimeout(timer);
-    };
-  });
+
+  const handleMouseEnter = useCallback(() => {
+    timer.current = setTimeout(startVideoPlayback, PLAYBACK_DELAY);
+    return handleMouseLeave;
+  }, [handleMouseLeave, startVideoPlayback]);
+
 
   return (
     <article className="small-movie-card catalog__movies-card"
@@ -38,8 +39,10 @@ const SmallMovieCard = (props) => {
     >
       <Link to={`/films/${film.id}`} className="small-movie-card__link">
         <div className="small-movie-card__image">
-          {isPreviewStart ? <VideoPlayer src={film.previewVideoLink} hasControls={false} isAutoPlay={true} isMuted={true}/> :
-            <img src={film.posterImage} alt={film.name} width={ImageSize.WIDTH} height={ImageSize.HEIGHT}/>}
+          {isPreviewStart &&
+          <VideoPlayer src={film.previewVideoLink} hasControls={false} isAutoPlay={true} isMuted={true}/>}
+          {!isPreviewStart &&
+          <img src={film.posterImage} alt={film.name} width={ImageSize.WIDTH} height={ImageSize.HEIGHT}/>}
         </div>
         <h3 className="small-movie-card__title">
           <span>{film.name}</span>
@@ -49,8 +52,5 @@ const SmallMovieCard = (props) => {
   );
 };
 
-SmallMovieCard.propTypes = {
-  film: FilmType,
-  onHoverCallback: OnHover,
-};
+SmallMovieCard.propTypes = {film: FilmType};
 export default SmallMovieCard;
