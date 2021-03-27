@@ -1,20 +1,20 @@
+import {createGenreType} from '../filter/filter';
+import films from '../mocks/films';
+
 export const FilterActionType = {
-  ALL_GENRES: `filter/allGenres`,
-  COMEDIES: `filter/comedies`,
-  CRIME: `filter/crime`,
-  DOCUMENTARY: `filter/documentary`,
-  DRAMAS: `filter/dramas`,
-  HORROR: `filter/horror`,
-  KIDS_AND_FAMILY: `filter/kidsAndFamily`,
-  ROMANCE: `filter/romance`,
-  SCI_FI: `filter/sciFi`,
-  THRILLERS: `filter/thrillers`,
+  LOAD_SUCCESS: `load/loadSuccess`,
+  SET_FILTER: `filter/genres`,
 };
 
 export const ActionCreator = {
-  setFilter: (type) => {
-    return {
-      type,
-    };
-  },
+  filterGenres: (genre) => ({
+    type: FilterActionType.SET_FILTER,
+    payload: {genre, films: createGenreType(films, genre)},
+  }),
+  saveFilms: (payload) => ({
+    type: FilterActionType.LOAD_SUCCESS,
+    payload,
+  }),
 };
+
+

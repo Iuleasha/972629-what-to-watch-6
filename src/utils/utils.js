@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import {GENRES_ARRAY} from './constant/constant';
 
 export const formatTotalDuration = (mins) => {
   let h = Math.floor(mins / 60);
@@ -24,10 +23,3 @@ export const generateRating = (rating) => {
 };
 
 export const formatDate = (date, format) => dayjs(date).format(format);
-const genresToObject = (acc, {title, type}) => ({
-  ...acc,
-  ...{[type]: title}
-});
-
-
-export const genresItem = GENRES_ARRAY.reduce(genresToObject, {});

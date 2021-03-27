@@ -1,10 +1,12 @@
 import React, {useMemo} from 'react';
+import {connect} from 'react-redux';
 import {Link, useParams} from 'react-router-dom';
 import {FilmsType} from '../../types/types';
-import {HeaderMode, MovieCardButtonSize} from '../../utils/constant/constant';
+import {HeaderMode} from '../../utils/constant/constant';
 import Footer from '../footer/footer';
 import Header from '../header/header';
-import MovieList from '../movie-list/movie-list';
+import MoreLikeThis from '../more-like-this/more-like-this';
+import MyListButton from '../my-list-button/my-list-button';
 import PageNotFound from '../page-not-found/page-not-found';
 import PlayButton from '../play-button/play-button';
 import Tabs from '../tabs/tabs';
@@ -12,7 +14,7 @@ import Tabs from '../tabs/tabs';
 const Film = ({films}) => {
   const {id} = useParams();
   const film = useMemo(() => films.find((item) => String(item.id) === id), [id]);
-  const likeThisFilms = film && films.filter((item) => item.genre === film.genre && item.id !== film.id).sort(() => Math.random() - 0.5).slice(0, 4);
+  const likeThisFilms = useMemo(() => films.filter((item) => item.genre === film.genre && item.id !== film.id).sort(() => Math.random() - 0.5).slice(0, 4), [id]);
 
   return (film ? <>
     <section className="movie-card movie-card--full">
@@ -21,7 +23,9 @@ const Film = ({films}) => {
           <img src={film.backgroundImage} alt={film.name}/>
         </div>
         <h1 className="visually-hidden">WTW</h1>
+
         <Header type={HeaderMode.MOVIE_CARD}/>
+
         <div className="movie-card__wrap">
           <div className="movie-card__desc">
             <h2 className="movie-card__title">{film.name}</h2>
@@ -30,15 +34,10 @@ const Film = ({films}) => {
               <span className="movie-card__year">{film.released}</span>
             </p>
             <div className="movie-card__buttons">
-
               <PlayButton id={film.id}/>
 
-              <button className="btn btn--list movie-card__button" type="button">
-                <svg viewBox="0 0 19 20" width={MovieCardButtonSize.WIDTH} height={MovieCardButtonSize.HEIGHT}>
-                  <use xlinkHref="#add"/>
-                </svg>
-                <span>My list</span>
-              </button>
+              <MyListButton/>
+
               <Link to={`/films/${film.id}/review`} className="btn movie-card__button">Add review</Link>
             </div>
           </div>
@@ -55,10 +54,7 @@ const Film = ({films}) => {
       </div>
     </section>
     <div className="page-content">
-      {likeThisFilms.length > 0 && <section className="catalog catalog--like-this">
-        <h2 className="catalog__title">More like this</h2>
-        <MovieList films={likeThisFilms}/>
-      </section>}
+      {likeThisFilms.length > 0 && <MoreLikeThis films={likeThisFilms}/>}
       <Footer/>
     </div>
   </> : <PageNotFound/>);
@@ -66,4 +62,9 @@ const Film = ({films}) => {
 
 Film.propTypes = {films: FilmsType};
 
-export default Film;
+const mapStateToProps = (state) => ({
+  films: state.films,
+});
+
+export {Film};
+export default connect(mapStateToProps)(Film);

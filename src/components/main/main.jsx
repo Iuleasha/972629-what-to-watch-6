@@ -1,79 +1,62 @@
-import React from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
-import {ActiveGenre, FilmsType, MovieCardType, OnSelectGenre} from '../../types/types';
-import {HeaderMode, MovieCardButtonSize, PosterSize} from '../../utils/constant/constant';
+import {ActiveGenre, FilmsType, GenresType, OnSelectGenre} from '../../types/types';
 import CatalogGenres from '../catalog-genres/catalog-genres';
 import Footer from '../footer/footer';
-import Header from '../header/header';
 import MovieList from '../movie-list/movie-list';
-import PlayButton from '../play-button/play-button';
+import MovieCard from '../preview-card/preview-card';
 
+const MAX_FILM_LENGTH = 8;
 
 const MainPage = (props) => {
-  const {movieCardInfo, films, onSelectGenre, genre} = props;
+  const {films, onSelectGenre, genre, genres} = props;
+  const [maxLength, setLength] = useState(MAX_FILM_LENGTH);
+
+  const showMoreButtonClick = useCallback(() => {
+    setLength((showedFilmsLength) => showedFilmsLength + MAX_FILM_LENGTH);
+  }, [setLength]);
+
+  const showedFilms = useMemo(() =>
+    films.slice(0, maxLength), [films, maxLength]);
 
   return (<>
-    <section className="movie-card">
-      <div className="movie-card__bg">
-        <img src={films[0].backgroundImage} alt={films[0].name}/>
-      </div>
-      <h1 className="visually-hidden">WTW</h1>
-      <Header type={HeaderMode.MOVIE_CARD}/>
-      <div className="movie-card__wrap">
-        <div className="movie-card__info">
-          <div className="movie-card__poster">
-            <img src={films[0].posterImage} alt={`${films[0].name} poster`}
-              width={PosterSize.WIDTH}
-              height={PosterSize.HEIGHT}/>
-          </div>
-          <div className="movie-card__desc">
-            <h2 className="movie-card__title">{movieCardInfo.TITLE}</h2>
-            <p className="movie-card__meta">
-              <span className="movie-card__genre">{movieCardInfo.GENRE}</span>
-              <span className="movie-card__year">{movieCardInfo.RELEASE_DATE}</span>
-            </p>
-            <div className="movie-card__buttons">
-              <PlayButton id={films[0].id}/>
+    <MovieCard/>
 
-              <button className="btn btn--list movie-card__button" type="button">
-                <svg viewBox={`0 0 ${MovieCardButtonSize.WIDTH} ${MovieCardButtonSize.HEIGHT}`}
-                  width={MovieCardButtonSize.WIDTH} height={MovieCardButtonSize.HEIGHT}>
-                  <use xlinkHref="#add"/>
-                </svg>
-                <span>My list</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
     <div className="page-content">
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <CatalogGenres onSelectGenre={onSelectGenre} activeFilter={genre}/>
-        <MovieList films={films}/>
+        <CatalogGenres genres={genres} onSelectGenre={onSelectGenre} activeFilter={genre}/>
 
-        <div className="catalog__more">
-          <button className="catalog__button" type="button">Show more</button>
-        </div>
+        <MovieList films={showedFilms}/>
+
+        {(films.length > MAX_FILM_LENGTH && maxLength < films.length) && <div className="catalog__more">
+          <button className="catalog__button" type="button" onClick={showMoreButtonClick}>Show more</button>
+        </div>}
       </section>
+
       <Footer/>
     </div>
   </>);
 };
 
-MainPage.propTypes = {movieCardInfo: MovieCardType, films: FilmsType, onSelectGenre: OnSelectGenre, genre: ActiveGenre};
+MainPage.propTypes = {
+  films: FilmsType,
+  onSelectGenre: OnSelectGenre,
+  genre: ActiveGenre,
+  genres: GenresType,
+};
 
 const mapStateToProps = (state) => ({
   genre: state.genre,
+  genres: state.genres,
   films: state.films,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onSelectGenre(type) {
-    dispatch(ActionCreator.setFilter(type));
+  onSelectGenre(genre) {
+    dispatch(ActionCreator.filterGenres(genre));
   },
 });
 

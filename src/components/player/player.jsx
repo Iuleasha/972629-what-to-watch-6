@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {useHistory, useParams} from 'react-router-dom';
 import {FilmsType} from '../../types/types';
 import PageNotFound from '../page-not-found/page-not-found';
@@ -44,6 +45,12 @@ const Player = ({films}) => {
   </div> : <PageNotFound/>
   );
 };
+
 Player.propTypes = {films: FilmsType};
 
-export default Player;
+const mapStateToProps = (state) => ({
+  films: state.films,
+});
+
+export {Player};
+export default connect(mapStateToProps)(Player);
