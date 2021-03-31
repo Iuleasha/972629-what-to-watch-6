@@ -23,12 +23,6 @@ export const FilmType = PropTypes.shape({
 
 export const FilmsType = PropTypes.arrayOf(FilmType);
 
-export const MovieCardType = PropTypes.shape({
-  TITLE: PropTypes.string.isRequired,
-  GENRE: PropTypes.string.isRequired,
-  RELEASE_DATE: PropTypes.number.isRequired,
-});
-
 export const ReviewType = PropTypes.number.isRequired;
 
 export const LogoLight = PropTypes.bool;
@@ -40,7 +34,10 @@ export const BreadcrumbsType = PropTypes.shape({
 });
 
 export const HeaderClass = PropTypes.string;
-export const OnHover = PropTypes.func.isRequired;
+export const OnSelectGenre = PropTypes.func.isRequired;
+export const ActiveFilter = PropTypes.string.isRequired;
+export const ActiveGenre = PropTypes.string.isRequired;
+export const GenresType = PropTypes.arrayOf(PropTypes.string);
 
 export const HandleSubmitType = PropTypes.func.isRequired;
 export const HandleFieldChangeType = PropTypes.func.isRequired;

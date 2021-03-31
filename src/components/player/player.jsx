@@ -1,6 +1,8 @@
 import React from 'react';
-import {useParams, useHistory} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {useHistory, useParams} from 'react-router-dom';
 import {FilmsType} from '../../types/types';
+import PageNotFound from '../page-not-found/page-not-found';
 
 const MAX_PLAYER_PROGRESS = 100;
 const TEMP_VALUE = 30;
@@ -12,9 +14,9 @@ const Player = ({films}) => {
   const {push} = useHistory();
   const film = films.find((item) => String(item.id) === id);
 
-  return (<div className="player">
+  return (film ? <div className="player">
     <video src="#" className="player__video" poster={film.posterImage}/>
-    <button type="button" className="player__exit" onClick={()=>push(`/films/${id}`)}>Exit</button>
+    <button type="button" className="player__exit" onClick={() => push(`/films/${id}`)}>Exit</button>
     <div className="player__controls">
       <div className="player__controls-row">
         <div className="player__time">
@@ -32,16 +34,23 @@ const Player = ({films}) => {
         </button>
         <div className="player__name">Transpotting</div>
         <button type="button" className="player__full-screen">
-          <svg viewBox={`0 0 ${FULL_SCREEN_BUTTON_SIZE} ${FULL_SCREEN_BUTTON_SIZE}`} width={FULL_SCREEN_BUTTON_SIZE} height={FULL_SCREEN_BUTTON_SIZE}>
+          <svg viewBox={`0 0 ${FULL_SCREEN_BUTTON_SIZE} ${FULL_SCREEN_BUTTON_SIZE}`} width={FULL_SCREEN_BUTTON_SIZE}
+            height={FULL_SCREEN_BUTTON_SIZE}>
             <use xlinkHref="#full-screen"/>
           </svg>
           <span>Full screen</span>
         </button>
       </div>
     </div>
-  </div>
+  </div> : <PageNotFound/>
   );
 };
+
 Player.propTypes = {films: FilmsType};
 
-export default Player;
+const mapStateToProps = (state) => ({
+  films: state.films,
+});
+
+export {Player};
+export default connect(mapStateToProps)(Player);

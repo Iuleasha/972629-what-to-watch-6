@@ -1,16 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
 import App from './components/app/app';
 import films from './mocks/films';
+import {ActionCreator} from './store/action';
+import {reducer} from './store/reducer';
 
-const MovieCardInfo = {
-  TITLE: `The Grand Budapest Hotel`,
-  GENRE: `Drama`,
-  RELEASE_DATE: 2014,
-};
+const store = createStore(
+    reducer, composeWithDevTools(),
+);
+
+store.dispatch(ActionCreator.saveFilms(films));
 
 ReactDOM.render(
-    <App movieCardInfo={MovieCardInfo}
-      films={films}/>,
+    <Provider store={store}>
+      <App/>
+    </Provider>,
     document.querySelector(`#root`),
 );

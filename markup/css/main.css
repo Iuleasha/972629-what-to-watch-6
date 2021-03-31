@@ -528,6 +528,7 @@ main {
 .catalog__genres-link {
   display: block;
   color: #DFCF77;
+  cursor: pointer;
   text-decoration: none;
   position: relative;
   padding-bottom: 15px;

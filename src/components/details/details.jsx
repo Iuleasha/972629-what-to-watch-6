@@ -1,7 +1,12 @@
 import React from 'react';
 import {FilmType} from '../../types/types';
 import {formatTotalDuration} from '../../utils/utils';
+
 const Details = ({film}) => {
+
+  const filmsArray = film.length - 1;
+  const filmDetails = film.starring.map((item, index) => <span
+    key={`starring-${index}`}>{item}{index < filmsArray ? `,` : ``} <br/></span>);
 
   return (<>
     <div className="movie-card__text movie-card__row">
@@ -13,7 +18,7 @@ const Details = ({film}) => {
         <p className="movie-card__details-item">
           <strong className="movie-card__details-name">Starring</strong>
           <span className="movie-card__details-value">
-            {film.starring.map((item, index, array) => <span key={`starring-${index}`}>{item}{index < array.length - 1 ? `,` : ``} <br /></span>)}
+            {filmDetails}
           </span>
         </p>
       </div>
