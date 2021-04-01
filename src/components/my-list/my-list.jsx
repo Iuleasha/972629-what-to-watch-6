@@ -1,3 +1,4 @@
+import * as PropTypes from 'prop-types';
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {HeaderMode} from '../../constant';
@@ -28,7 +29,7 @@ const MyList = ({favorite, onLoadData}) => {
   </div>);
 };
 
-MyList.propTypes = {favorite: FilmsType};
+MyList.propTypes = {favorite: FilmsType, onLoadData: PropTypes.func.isRequired};
 
 const mapStateToProps = (state) => ({
   favorite: state.favorite,

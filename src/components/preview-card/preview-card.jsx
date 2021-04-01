@@ -1,3 +1,4 @@
+import * as PropTypes from 'prop-types';
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {HeaderMode, PosterSize} from '../../constant';
@@ -53,7 +54,7 @@ const PreviewCard = ({preview, onLoadData}) => {
   </section>;
 };
 
-PreviewCard.propTypes = {preview: FilmType};
+PreviewCard.propTypes = {preview: FilmType, onLoadData: PropTypes.func.isRequired};
 
 const mapStateToProps = (state) => ({
   preview: state.preview,

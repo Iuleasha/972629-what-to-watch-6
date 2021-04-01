@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Link, useHistory} from 'react-router-dom';
 import {AuthorizationStatus} from '../../constant';
 import {logOut} from '../../store/api-actions';
-import {BreadcrumbsType, HeaderClass, HeaderTitleType} from '../../types/types';
+import {BreadcrumbsType, HeaderClass, HeaderTitleType, UserType} from '../../types/types';
 import Logo from '../logo/logo';
 
 const AVATAR_DESCRIPTION = {
@@ -58,7 +58,6 @@ const Header = ({title, breadcrumbs, type, authorizationStatus, user, signOut, s
 const mapStateToProps = (state) => ({
   authorizationStatus: state.authorizationStatus,
   user: state.user,
-  signOut: PropTypes.func.isRequired,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -67,7 +66,15 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-Header.propTypes = {title: HeaderTitleType, breadcrumbs: BreadcrumbsType, type: HeaderClass};
+Header.propTypes = {
+  title: HeaderTitleType,
+  breadcrumbs: BreadcrumbsType,
+  type: HeaderClass,
+  signOut: PropTypes.func.isRequired,
+  authorizationStatus: PropTypes.bool.isRequired,
+  showUserBlock: PropTypes.bool.isRequired,
+  user: UserType
+};
 
 export {Header};
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
