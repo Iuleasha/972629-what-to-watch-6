@@ -1,8 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {HeaderMode} from '../../constant';
 import Footer from '../footer/footer';
 import Header from '../header/header';
-import {HeaderMode} from '../../utils/constant/constant';
 
 
 const PageNotFound = () => {

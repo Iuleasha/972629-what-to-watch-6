@@ -1,16 +1,28 @@
-import React from 'react';
+import * as PropTypes from 'prop-types';
+import React, {useCallback} from 'react';
+import {connect} from 'react-redux';
+import {Link, useHistory} from 'react-router-dom';
+import {AuthorizationStatus} from '../../constant';
+import {logOut} from '../../store/api-actions';
 import {BreadcrumbsType, HeaderClass, HeaderTitleType} from '../../types/types';
 import Logo from '../logo/logo';
-import {Link} from 'react-router-dom';
-
 
 const AVATAR_DESCRIPTION = {
   AVATAR_SIZE: 63,
-  AVATAR_LOGO: `img/avatar.jpg`,
-  AVATAR_NAME: `User avatar`,
 };
 
-const Header = ({title, breadcrumbs, type}) => {
+const Header = ({title, breadcrumbs, type, authorizationStatus, user, signOut, showUserBlock = true}) => {
+  const isLogIn = authorizationStatus === AuthorizationStatus.AUTH;
+
+  const history = useHistory();
+  const handleClick = useCallback(() => {
+    history.push(`/mylist/`);
+  });
+  const handleSignOut = (evt) => {
+    evt.preventDefault();
+    signOut();
+  };
+
   return (
     <header className={`page-header ${type}`}>
       <Logo/>
@@ -28,16 +40,34 @@ const Header = ({title, breadcrumbs, type}) => {
         </ul>
       </nav>}
 
-      <div className="user-block">
-        <div className="user-block__avatar">
-          <img src={AVATAR_DESCRIPTION.AVATAR_LOGO} alt={AVATAR_DESCRIPTION.AVATAR_NAME} width={AVATAR_DESCRIPTION.AVATAR_SIZE} height={AVATAR_DESCRIPTION.AVATAR_SIZE}/>
-        </div>
-      </div>
+      {showUserBlock && <div className="user-block">
+        {isLogIn ? <>
+          <div className="user-block__avatar" onClick={handleClick}>
+            <img src={user.avatarUrl} alt={user.name} width={AVATAR_DESCRIPTION.AVATAR_SIZE}
+              height={AVATAR_DESCRIPTION.AVATAR_SIZE}/>
+          </div>
+          <a href="#" onClick={handleSignOut} className="user-block__link">Sign Out</a></> :
+
+          <Link to={`/login`} className="user-block__link">Sign in</Link>}
+      </div>}
     </header>
 
   );
 };
 
+const mapStateToProps = (state) => ({
+  authorizationStatus: state.authorizationStatus,
+  user: state.user,
+  signOut: PropTypes.func.isRequired,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  signOut() {
+    dispatch(logOut());
+  },
+});
+
 Header.propTypes = {title: HeaderTitleType, breadcrumbs: BreadcrumbsType, type: HeaderClass};
 
-export default Header;
+export {Header};
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

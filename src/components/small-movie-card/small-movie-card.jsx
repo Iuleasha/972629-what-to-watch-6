@@ -1,5 +1,6 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
+import {useDebounce} from '../../hooks/debounce';
 import {FilmType} from '../../types/types';
 import VideoPlayer from '../video-player/video-player';
 
@@ -11,26 +12,20 @@ const PLAYBACK_DELAY = 1000;
 
 const SmallMovieCard = (props) => {
   const {film} = props;
+  const [isHovered, hover] = useState(false);
   const [isPreviewStart, showPreview] = useState(false);
-  const timer = useRef(null);
-
-  const startVideoPlayback = useCallback(() => {
-    timer.current = null;
-    showPreview(true);
-  }, [showPreview]);
-
-  const handleMouseLeave = useCallback(() => {
-    showPreview(false);
-    clearTimeout(timer.current);
-    timer.current = null;
-  }, [showPreview]);
-
-
+  const debouncedSearchTerm = useDebounce(isHovered, PLAYBACK_DELAY);
   const handleMouseEnter = useCallback(() => {
-    timer.current = setTimeout(startVideoPlayback, PLAYBACK_DELAY);
-    return handleMouseLeave;
-  }, [handleMouseLeave, startVideoPlayback]);
+    hover(true);
+  }, []);
+  const handleMouseLeave = useCallback(() => {
+    hover(false);
+    showPreview(false);
+  }, []);
 
+  useEffect(() => {
+    showPreview(isHovered);
+  }, [debouncedSearchTerm]);
 
   return (
     <article className="small-movie-card catalog__movies-card"

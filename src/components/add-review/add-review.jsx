@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {useParams} from 'react-router-dom';
+import {PosterSize} from '../../constant';
 import {FilmsType} from '../../types/types';
-import {PosterSize} from '../../utils/constant/constant';
 import ReviewForm from '../add-review-form/add-review-form';
 import Header from '../header/header';
 

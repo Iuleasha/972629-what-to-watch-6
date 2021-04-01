@@ -1333,12 +1333,15 @@ main {
   font-weight: 500; }
 
 .small-movie-card__link {
+  width: 100%;
   display: inline-block;
   vertical-align: top;
   text-decoration: none;
   color: inherit; }
 
 .user-block {
+  display: flex;
+  align-items: center;
   margin-left: auto; }
 
 .user-block__avatar {

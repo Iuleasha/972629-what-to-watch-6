@@ -1,23 +1,33 @@
-import React from 'react';
-import reviews from '../../mocks/reviews';
-import {ReviewType} from '../../types/types';
+import PropTypes from 'prop-types';
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
+import {fetchComments} from '../../store/api-actions';
 import {formatDate} from '../../utils/utils';
 
-const Reviews = () => {
+const Reviews = ({filmId, onLoadComments, comments}) => {
   let reviewsColLeft = [];
   let reviewsColRight = [];
 
-  reviews.forEach((item, index) => {
-    if ((index + 1) % 2 === 0) {
-      reviewsColRight.push(item);
-    } else {
-      reviewsColLeft.push(item);
+  if (comments[filmId]) {
+    comments[filmId].forEach((item, index) => {
+      if ((index + 1) % 2 === 0) {
+        reviewsColRight.push(item);
+      } else {
+        reviewsColLeft.push(item);
+      }
+    });
+  }
+
+  useEffect(() => {
+    if (!comments[filmId]) {
+      onLoadComments(filmId);
     }
-  });
+  }, [comments[filmId]]);
 
   return (
     <>
       <div className="movie-card__reviews movie-card__row">
+        {(comments[filmId] && !reviewsColLeft.length && !reviewsColRight.length) && <p>No&nbsp;reviews</p>}
         <div className="movie-card__reviews-col">
           {reviewsColLeft.map((item) => (<div className="review" key={`review-id-${item.id}`}>
             <blockquote className="review__quote">
@@ -51,6 +61,21 @@ const Reviews = () => {
   );
 };
 
-Reviews.propTypes = {filmId: ReviewType};
+Reviews.propTypes = {
+  onLoadComments: PropTypes.func,
+  filmId: PropTypes.number,
+  comments: PropTypes.any,
+};
 
-export default Reviews;
+const mapStateToProps = (state) => ({
+  comments: state.comments,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadComments(id) {
+    dispatch(fetchComments(id));
+  },
+});
+
+export {Reviews};
+export default connect(mapStateToProps, mapDispatchToProps)(Reviews);

@@ -23,8 +23,6 @@ export const FilmType = PropTypes.shape({
 
 export const FilmsType = PropTypes.arrayOf(FilmType);
 
-export const ReviewType = PropTypes.number.isRequired;
-
 export const LogoLight = PropTypes.bool;
 
 export const HeaderTitleType = PropTypes.string;
@@ -42,3 +40,11 @@ export const GenresType = PropTypes.arrayOf(PropTypes.string);
 export const HandleSubmitType = PropTypes.func.isRequired;
 export const HandleFieldChangeType = PropTypes.func.isRequired;
 
+export const CommentType = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  user: {id: PropTypes.number.isRequired, name: PropTypes.string.isRequired},
+  rating: PropTypes.number.isRequired,
+  date: PropTypes.string.isRequired,
+  comment: PropTypes.string.isRequired,
+});
+export const CommentsType = PropTypes.arrayOf(CommentType);
