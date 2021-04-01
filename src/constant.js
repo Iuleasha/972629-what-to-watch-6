@@ -42,3 +42,11 @@ export const APIRoute = {
   COMMENTS: `/comments`,
   FAVORITE: `/favorite`
 };
+
+export const ButtonIcon = {
+  PLAY: `#play-s`,
+  PAUSE: `#pause`,
+  FULL_SCREEN: `#full-screen`,
+  INLIST: `#in-list`,
+  ADD: `#add`,
+};

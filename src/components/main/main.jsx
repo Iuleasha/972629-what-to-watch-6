@@ -15,7 +15,7 @@ const MAX_FILM_LENGTH = 8;
 const MainPage = (props) => {
   const {films, onSelectGenre, genre, genres, isDataLoaded} = props;
   const [maxLength, setLength] = useState(MAX_FILM_LENGTH);
-  const sortedFilms = useMemo(() =>sortByGenre(films, genre), [films]);
+  const sortedFilms = useMemo(() => sortByGenre(films, genre), [films, genre]);
   const showMoreButtonClick = useCallback(() => {
     setLength((showedFilmsLength) => showedFilmsLength + MAX_FILM_LENGTH);
   }, [setLength]);
@@ -40,7 +40,7 @@ const MainPage = (props) => {
 
         <MovieList films={showedFilms}/>
 
-        {(films.length > MAX_FILM_LENGTH && maxLength < films.length) && <div className="catalog__more">
+        {(sortedFilms.length > MAX_FILM_LENGTH && maxLength < sortedFilms.length) && <div className="catalog__more">
           <button className="catalog__button" type="button" onClick={showMoreButtonClick}>Show more</button>
         </div>}
       </section>

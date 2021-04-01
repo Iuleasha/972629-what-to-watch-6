@@ -1348,6 +1348,7 @@ main {
   width: 63px;
   height: 63px;
   overflow: hidden;
+  margin-right: 10px;
   border-radius: 50%; }
   .user-block__avatar img {
     vertical-align: top;
@@ -1403,3 +1404,15 @@ main {
   top: 50%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%); }
+
+.loader-wrapper {
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100vw;
+  height: 100vh;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#180202),to(#000));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,5 +1,8 @@
 import dayjs from 'dayjs';
 
+const duration = require(`dayjs/plugin/duration`);
+dayjs.extend(duration);
+
 export const formatTotalDuration = (mins) => {
   let h = Math.floor(mins / 60);
   let m = mins % 60;
@@ -22,3 +25,5 @@ export const generateRating = (rating) => {
 };
 
 export const formatDate = (date, format) => dayjs(date).format(format);
+
+export const formatFilmDuration = (time)=>dayjs.duration(time * 1000).format(`HH:mm:ss`);

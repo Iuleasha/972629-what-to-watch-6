@@ -35,7 +35,7 @@ const SmallMovieCard = (props) => {
       <Link to={`/films/${film.id}`} className="small-movie-card__link">
         <div className="small-movie-card__image">
           {isPreviewStart &&
-          <VideoPlayer src={film.previewVideoLink} hasControls={false} isAutoPlay={true} isMuted={true}/>}
+          <VideoPlayer src={film.previewVideoLink} hasCustomControls={false} isAutoPlay={true} isMuted={true}/>}
           {!isPreviewStart &&
           <img src={film.posterImage} alt={film.name} width={ImageSize.WIDTH} height={ImageSize.HEIGHT}/>}
         </div>
