@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {MOVIE_CARD_NAV_ITEMS} from '../../constant';
+import {MOVIE_CARD_NAV_ITEMS} from '../../constants/constant';
 import {FilmType} from '../../types/types';
 import Details from '../details/details';
 import Overview from '../overview/overview';

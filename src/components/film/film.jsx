@@ -1,9 +1,7 @@
-import * as PropTypes from 'prop-types';
 import React, {useMemo} from 'react';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Link, useParams} from 'react-router-dom';
-import {AuthorizationStatus, HeaderMode} from '../../constant';
-import {FilmsType} from '../../types/types';
+import {AuthorizationStatus, HeaderMode} from '../../constants/constant';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Loader from '../loader/loading-screen';
@@ -13,7 +11,8 @@ import PageNotFound from '../page-not-found/page-not-found';
 import PlayButton from '../play-button/play-button';
 import Tabs from '../tabs/tabs';
 
-const Film = ({films, authorizationStatus, isDataLoaded}) => {
+const Film = () => {
+  const {films, authorizationStatus, isDataLoaded} = useSelector((state) => state.DATA);
   const {id} = useParams();
   const film = useMemo(() => films.find((item) => String(item.id) === id), [id, films]);
   const likeThisFilms = useMemo(() => films.filter((item) => item.genre === film.genre && item.id !== film.id).sort(() => Math.random() - 0.5).slice(0, 4), [id, films]);
@@ -70,17 +69,4 @@ const Film = ({films, authorizationStatus, isDataLoaded}) => {
   </> : <PageNotFound/>);
 };
 
-Film.propTypes = {
-  films: FilmsType,
-  isDataLoaded: PropTypes.bool.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  films: state.films,
-  isDataLoaded: state.isDataLoaded,
-  authorizationStatus: state.authorizationStatus,
-});
-
-export {Film};
-export default connect(mapStateToProps)(Film);
+export default Film;

@@ -27,8 +27,8 @@ export const LogoLight = PropTypes.bool;
 
 export const HeaderTitleType = PropTypes.string;
 export const BreadcrumbsType = PropTypes.shape({
-  NAME: PropTypes.string.isRequired,
-  ID: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 });
 
 export const HeaderClass = PropTypes.string;

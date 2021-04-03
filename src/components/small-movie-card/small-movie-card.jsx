@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {useDebounce} from '../../hooks/debounce';
 import {FilmType} from '../../types/types';
@@ -10,18 +10,21 @@ const ImageSize = {
 };
 const PLAYBACK_DELAY = 1000;
 
-const SmallMovieCard = (props) => {
-  const {film} = props;
+const SmallMovieCard = ({film}) => {
   const [isHovered, hover] = useState(false);
+
   const [isPreviewStart, showPreview] = useState(false);
+
   const debouncedSearchTerm = useDebounce(isHovered, PLAYBACK_DELAY);
-  const handleMouseEnter = useCallback(() => {
+
+  const handleMouseEnter = () => {
     hover(true);
-  }, []);
-  const handleMouseLeave = useCallback(() => {
+  };
+
+  const handleMouseLeave = () => {
     hover(false);
     showPreview(false);
-  }, []);
+  };
 
   useEffect(() => {
     showPreview(isHovered);

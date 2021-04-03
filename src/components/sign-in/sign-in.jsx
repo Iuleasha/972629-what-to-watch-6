@@ -1,20 +1,22 @@
-import * as PropTypes from 'prop-types';
 import React, {useRef} from 'react';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {login} from '../../store/api-actions';
 import Footer from '../footer/footer';
-import {Header} from '../header/header';
+import Header from '../header/header';
 
-const SignIn = ({onSubmit}) => {
+const SignIn = () => {
+  const dispatch = useDispatch();
+
   const emailRef = useRef();
   const passwordRef = useRef();
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    onSubmit({
+    dispatch(login({
       email: emailRef.current.value,
       password: passwordRef.current.value,
-    });
+    }));
   };
 
   return (<div className="user-page">
@@ -27,13 +29,15 @@ const SignIn = ({onSubmit}) => {
           <div className="sign-in__field">
             <input ref={emailRef} className="sign-in__input" type="email" placeholder="Email address"
               name="user-email"
-              id="user-email"/>
+              id="user-email"
+              data-testid="email"/>
             <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
           </div>
           <div className="sign-in__field">
             <input ref={passwordRef} className="sign-in__input" type="password" placeholder="Password"
               name="user-password"
-              id="user-password"/>
+              id="user-password"
+              data-testid="password"/>
             <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
           </div>
         </div>
@@ -47,15 +51,4 @@ const SignIn = ({onSubmit}) => {
   );
 };
 
-SignIn.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(authData) {
-    dispatch(login(authData));
-  },
-});
-
-export {SignIn};
-export default connect(null, mapDispatchToProps)(SignIn);
+export default SignIn;

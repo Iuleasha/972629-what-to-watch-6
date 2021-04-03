@@ -1,26 +1,36 @@
 import * as PropTypes from 'prop-types';
-import React, {useCallback} from 'react';
-import {connect} from 'react-redux';
+import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {Link, useHistory} from 'react-router-dom';
-import {AuthorizationStatus} from '../../constant';
+import {AuthorizationStatus} from '../../constants/constant';
 import {logOut} from '../../store/api-actions';
-import {BreadcrumbsType, HeaderClass, HeaderTitleType, UserType} from '../../types/types';
+import {BreadcrumbsType, HeaderClass, HeaderTitleType} from '../../types/types';
 import Logo from '../logo/logo';
 
 const AVATAR_DESCRIPTION = {
   AVATAR_SIZE: 63,
 };
 
-const Header = ({title, breadcrumbs, type, authorizationStatus, user, signOut, showUserBlock = true}) => {
+const Header = ({title, breadcrumbs, type, showUserBlock = true}) => {
+  const {authorizationStatus, user} = useSelector((state) => state.USER);
+
+  const dispatch = useDispatch();
+
   const isLogIn = authorizationStatus === AuthorizationStatus.AUTH;
 
   const history = useHistory();
-  const handleClick = useCallback(() => {
+
+  const handleClick = () => {
     history.push(`/mylist/`);
-  });
+  };
+
   const handleSignOut = (evt) => {
     evt.preventDefault();
     signOut();
+  };
+
+  const signOut = () => {
+    dispatch(logOut());
   };
 
   return (
@@ -55,26 +65,11 @@ const Header = ({title, breadcrumbs, type, authorizationStatus, user, signOut, s
   );
 };
 
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
-  user: state.user,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  signOut() {
-    dispatch(logOut());
-  },
-});
-
 Header.propTypes = {
   title: HeaderTitleType,
   breadcrumbs: BreadcrumbsType,
   type: HeaderClass,
-  signOut: PropTypes.func.isRequired,
-  authorizationStatus: PropTypes.bool.isRequired,
-  showUserBlock: PropTypes.bool.isRequired,
-  user: UserType
+  showUserBlock: PropTypes.bool,
 };
 
-export {Header};
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

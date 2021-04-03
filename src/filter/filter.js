@@ -1,4 +1,4 @@
-import {DEFAULT_GENRE} from '../constant';
+import {DEFAULT_GENRE} from '../constants/constant';
 
 export const createGenreArray = (films) => {
   const genresArray = [...new Set(films.map((film) => film.genre))].sort();

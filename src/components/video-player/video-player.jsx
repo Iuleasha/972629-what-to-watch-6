@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
-import {ButtonIcon} from '../../constant';
+import {ButtonIcon} from '../../constants/constant';
 import {useInterval} from '../../hooks/use-interval';
 import {formatFilmDuration} from '../../utils/utils';
 
@@ -12,18 +12,32 @@ const TIME_INTERVAL = 1000;
 
 const VideoPlayer = ({isAutoPlay, isMuted, hasCustomControls, src, name}) => {
   const {push} = useHistory();
+
   const {id} = useParams();
+
   const videoRef = useRef();
+
   const [filmDuration, setDuration] = useState(0);
+
   const [isRunning, setIsRunning] = useState(false);
+
   const [currentTime, setCurrentTime] = useState(0);
+
   const [timeValue, setTimeValue] = useState(`00:00:00`);
 
-  const handlePlay = useCallback(() => {
+  const handlePlay = () => {
     setIsRunning(!isRunning);
-  }, [isRunning]);
+  };
 
-  useEffect(()=>{
+  const handlerExit = () => {
+    push(`/films/${id}`);
+  };
+
+  const openFullScreen = () => {
+    videoRef.current.requestFullscreen();
+  };
+
+  useEffect(() => {
     setTimeValue(formatFilmDuration(filmDuration));
   }, [filmDuration]);
 
@@ -41,13 +55,6 @@ const VideoPlayer = ({isAutoPlay, isMuted, hasCustomControls, src, name}) => {
     setDuration(Math.round(videoRef.current.duration - currentTime));
   }, isRunning ? TIME_INTERVAL : null);
 
-  const handlerExit = useCallback(() => {
-    push(`/films/${id}`);
-  }, [id]);
-
-  const openFullScreen = useCallback(() => {
-    videoRef.current.requestFullscreen();
-  }, []);
 
   return (
     <>

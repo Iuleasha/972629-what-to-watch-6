@@ -1,9 +1,7 @@
-import * as PropTypes from 'prop-types';
 import React, {useCallback, useRef, useState} from 'react';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {postComment} from '../../store/api-actions';
-import {HandleFieldChangeType, HandleSubmitType} from '../../types/types';
 
 const MIN_COMMENT_LENGTH = 50;
 const MAX_COMMENT_LENGTH = 400;
@@ -11,16 +9,16 @@ const STARS_LENGTH = 10;
 const RATING_DEFAULT_VALUE = 3;
 const RATING_STARS = [...Array(STARS_LENGTH).keys()].map((i) => i + 1);
 
-const ReviewForm = ({onSubmitReview}) => {
+const ReviewForm = () => {
   const {id} = useParams();
+  const dispatch = useDispatch();
 
   const [isFormValid, setFormValid] = useState(false);
   const [rating, setRating] = useState(RATING_DEFAULT_VALUE);
 
-  const handleFieldChange = useCallback((evt) => {
-
+  const handleFieldChange = (evt) => {
     setRating(Number(evt.target.value));
-  }, [setRating]);
+  };
 
   const textRef = useRef();
   const formRef = useRef();
@@ -36,9 +34,13 @@ const ReviewForm = ({onSubmitReview}) => {
     });
   };
 
-  const handleChange = useCallback(() => {
+  const onSubmitReview = (post) => {
+    dispatch(postComment(post));
+  };
+
+  const handleChange = () => {
     setFormValid(formRef.current.checkValidity());
-  }, [isFormValid]);
+  };
 
   return (
     <div className="add-review">
@@ -66,17 +68,4 @@ const ReviewForm = ({onSubmitReview}) => {
   );
 };
 
-ReviewForm.propTypes = {
-  onSubmitReview: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmitReview(post) {
-    dispatch(postComment(post));
-  },
-});
-
-ReviewForm.propTypes = {handleSubmit: HandleSubmitType, handleFieldChange: HandleFieldChangeType};
-
-export {ReviewForm};
-export default connect(null, mapDispatchToProps)(ReviewForm);
+export default ReviewForm;

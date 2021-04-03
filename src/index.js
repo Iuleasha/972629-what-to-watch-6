@@ -1,28 +1,30 @@
+import {configureStore} from '@reduxjs/toolkit';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {applyMiddleware, createStore} from 'redux';
-import {composeWithDevTools} from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
+import {Router as BrowserRouter} from 'react-router-dom';
+import browserHistory from './browser-history';
 import App from './components/app/app';
+import {AuthorizationStatus} from './constants/constant';
 import {createAPI} from './services/api';
-import {ActionCreator} from './store/action';
+import {requireAuthorization} from './store/action';
 import {checkAuth, fetchFilmsList} from './store/api-actions';
 import {redirect} from './store/middlewares/redirect';
-import {reducer} from './store/reducer';
-import {AuthorizationStatus} from './constant';
+import reducer from './store/root-reducer';
 
 const api = createAPI(
-    () => store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH))
+    () => store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH)),
 );
 
-const store = createStore(
-    reducer,
-    composeWithDevTools(
-        applyMiddleware(thunk.withExtraArgument(api)),
-        applyMiddleware(redirect)
-    )
-);
+const store = configureStore({
+  reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: api,
+      },
+    }).concat(redirect),
+});
 
 store.dispatch((dispatch)=>Promise.all([
   dispatch(checkAuth()),
@@ -31,7 +33,9 @@ store.dispatch((dispatch)=>Promise.all([
 
 ReactDOM.render(
     <Provider store={store}>
-      <App/>
+      <BrowserRouter history={browserHistory}>
+        <App/>
+      </BrowserRouter>
     </Provider>,
     document.querySelector(`#root`),
 );

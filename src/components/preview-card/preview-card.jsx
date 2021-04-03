@@ -1,14 +1,20 @@
-import * as PropTypes from 'prop-types';
 import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
-import {HeaderMode, PosterSize} from '../../constant';
+import {useDispatch, useSelector} from 'react-redux';
+import {HeaderMode, PosterSize} from '../../constants/constant';
 import {fetchPromoFilm} from '../../store/api-actions';
-import {FilmType} from '../../types/types';
 import Header from '../header/header';
 import MyListButton from '../my-list-button/my-list-button';
 import PlayButton from '../play-button/play-button';
 
-const PreviewCard = ({preview, onLoadData}) => {
+const PreviewCard = () => {
+  const {preview} = useSelector((state) => state.DATA);
+
+  const dispatch = useDispatch();
+
+  const onLoadData = () => {
+    dispatch(fetchPromoFilm());
+  };
+
   useEffect(() => {
     if (preview === null) {
       onLoadData();
@@ -54,17 +60,4 @@ const PreviewCard = ({preview, onLoadData}) => {
   </section>;
 };
 
-PreviewCard.propTypes = {preview: FilmType, onLoadData: PropTypes.func.isRequired};
-
-const mapStateToProps = (state) => ({
-  preview: state.preview,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
-    dispatch(fetchPromoFilm());
-  },
-});
-
-export {PreviewCard};
-export default connect(mapStateToProps, mapDispatchToProps)(PreviewCard);
+export default PreviewCard;

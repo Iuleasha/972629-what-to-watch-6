@@ -15,7 +15,7 @@ const Overview = ({film}) => {
       </div>
 
       <div className="movie-card__text">
-        <p>{film.fullDescription}</p>
+        <p>{film.description}</p>
 
         <p className="movie-card__director"><strong>Director: {film.director}</strong></p>
 
@@ -27,4 +27,5 @@ const Overview = ({film}) => {
 };
 
 Overview.propTypes = {film: FilmType};
+
 export default Overview;

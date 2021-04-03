@@ -1,3 +1,5 @@
+import {createAction} from '@reduxjs/toolkit';
+
 export const ActionType = {
   LOAD_SUCCESS: `load/loadSuccess`,
   LOAD_PROMO_FILM: `load/loadPromoFilm`,
@@ -10,43 +12,56 @@ export const ActionType = {
   ADD_REVIEW: `film/addReview`,
 };
 
-export const ActionCreator = {
-  setGenre: (payload) => ({
-    type: ActionType.SET_GENRE,
-    payload,
-  }),
-  loadFilms: (payload) => ({
-    type: ActionType.LOAD_SUCCESS,
-    payload,
-  }),
-  loadPromoFilm: (payload) => ({
-    type: ActionType.LOAD_PROMO_FILM,
-    payload,
-  }),
-  requireAuthorization: (payload) => ({
-    type: ActionType.REQUIRED_AUTHORIZATION,
-    payload,
-  }),
-  redirectToRoute: (payload) => ({
-    type: ActionType.REDIRECT_TO_ROUTE,
-    payload,
-  }),
-  setUser: (payload) => ({
-    type: ActionType.SET_USER,
-    payload,
-  }),
-  addReview: (payload) => ({
-    type: ActionType.ADD_REVIEW,
-    payload,
-  }),
-  loadFavorite: (payload) => ({
-    type: ActionType.LOAD_FAVORITE,
-    payload,
-  }),
-  switchFavoriteStatus: (payload) => ({
-    type: ActionType.SWITCH_FAVORITE_STATUS,
-    payload,
-  }),
-};
+export const setGenre = createAction(ActionType.SET_GENRE, (genre) => {
+  return {
+    payload: genre,
+  };
+});
 
+export const loadFilms = createAction(ActionType.LOAD_SUCCESS, (films) => {
+  return {
+    payload: films,
+  };
+});
 
+export const loadPromoFilm = createAction(ActionType.LOAD_PROMO_FILM, (promoFilm) => {
+  return {
+    payload: promoFilm,
+  };
+});
+
+export const requireAuthorization = createAction(ActionType.REQUIRED_AUTHORIZATION, (authStatus) => {
+  return {
+    payload: authStatus,
+  };
+});
+
+export const redirectToRoute = createAction(ActionType.REDIRECT_TO_ROUTE, (route) => {
+  return {
+    payload: route,
+  };
+});
+
+export const setUser = createAction(ActionType.SET_USER, (userInfo) => {
+  return {
+    payload: userInfo,
+  };
+});
+
+export const addReview = createAction(ActionType.ADD_REVIEW, (comments) => {
+  return {
+    payload: comments,
+  };
+});
+
+export const loadFavorite = createAction(ActionType.LOAD_FAVORITE, (favorites) => {
+  return {
+    payload: favorites,
+  };
+});
+
+export const switchFavoriteStatus = createAction(ActionType.SWITCH_FAVORITE_STATUS, (favorites) => {
+  return {
+    payload: favorites,
+  };
+});

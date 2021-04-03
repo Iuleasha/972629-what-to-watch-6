@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
-import {PosterSize} from '../../constant';
-import {FilmsType} from '../../types/types';
+import {PosterSize} from '../../constants/constant';
 import ReviewForm from '../add-review-form/add-review-form';
 import Header from '../header/header';
 
-const AddReview = ({films}) => {
+const AddReview = () => {
   const {id} = useParams();
+  const {films} = useSelector((state) => state.DATA);
 
   const [reviewForm, setReviewForm] = useState({
     rating: ``,
@@ -46,11 +46,4 @@ const AddReview = ({films}) => {
   );
 };
 
-AddReview.propTypes = {films: FilmsType};
-
-const mapStateToProps = (state) => ({
-  films: state.films,
-});
-
-export {AddReview};
-export default connect(mapStateToProps)(AddReview);
+export default AddReview;

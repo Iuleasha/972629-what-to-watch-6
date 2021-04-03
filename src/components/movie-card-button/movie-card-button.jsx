@@ -1,6 +1,6 @@
 import * as PropTypes from 'prop-types';
 import React from 'react';
-import {MovieCardButtonSize} from '../../constant';
+import {MovieCardButtonSize} from '../../constants/constant';
 
 const MovieCardButton = ({icon, buttonText, handleCallback}) =>{
   return <button className="btn movie-card__button" type="button" onClick={handleCallback}>
