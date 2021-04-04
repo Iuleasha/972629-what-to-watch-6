@@ -26,7 +26,8 @@ const ReviewForm = ({filmId}) => {
     evt.preventDefault();
 
     onSubmitReview({
-      filmId, post: {
+      id: filmId,
+      post: {
         rating,
         comment: textRef.current.value,
       },
