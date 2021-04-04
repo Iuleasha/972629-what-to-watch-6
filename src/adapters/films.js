@@ -1,4 +1,4 @@
-export const filmAdapter = ({
+export const adaptFilmData = ({
   id = ``,
   name = ``,
   poster_image: posterImage,
@@ -38,4 +38,4 @@ export const filmAdapter = ({
   };
 };
 
-export const filmsAdapter = (films) => films.map(filmAdapter);
+export const filmsAdapter = (films) => films.map(adaptFilmData);

@@ -1,5 +1,5 @@
-import {filmAdapter, filmsAdapter} from '../adapters/films';
-import {userAdapter} from '../adapters/user';
+import {adaptFilmData, filmsAdapter} from '../adapters/films';
+import {adaptUserData} from '../adapters/user';
 import {APIRoute, AppRoute, AuthorizationStatus} from '../constants/constant';
 import {
   addReview,
@@ -18,13 +18,13 @@ export const fetchFilmsList = () => (dispatch, _getState, api) => (
       dispatch(loadFilms(filmsAdapter(data)));
     })
     .catch(() => {
-      dispatch(loadFilms([]));
+      dispatch(loadFilms());
     })
 );
 
 export const fetchPromoFilm = () => (dispatch, _getState, api) => (
   api.get(APIRoute.PROMO_FILM)
-    .then(({data}) => dispatch(loadPromoFilm(filmAdapter(data))))
+    .then(({data}) => dispatch(loadPromoFilm(adaptFilmData(data))))
 );
 
 export const fetchFavorite = () => (dispatch, _getState, api) => (
@@ -36,12 +36,12 @@ export const fetchFavorite = () => (dispatch, _getState, api) => (
 
 export const postFavoriteStatus = ({id, status}) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.FAVORITE}/${id}/${status}`)
-    .then(({data}) => dispatch(switchFavoriteStatus(filmAdapter(data))))
+    .then(({data}) => dispatch(switchFavoriteStatus(adaptFilmData(data))))
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
-    .then(({data}) => dispatch(setUser(userAdapter(data))))
+    .then(({data}) => dispatch(setUser(adaptUserData(data))))
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
     .then(() => dispatch(fetchFilmsList()))
     .catch(() => {
@@ -55,23 +55,19 @@ export const logOut = () => (dispatch, _getState, api) => (
     .catch(() => {})
 );
 
-export const login = (loginData, errorCallback) => (dispatch, _getState, api) => (
+export const login = (loginData, onError) => (dispatch, _getState, api) => (
   api.post(APIRoute.LOGIN, loginData)
-    .then(({data}) => dispatch(setUser(userAdapter(data))))
+    .then(({data}) => dispatch(setUser(adaptUserData(data))))
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
     .then(() => dispatch(redirectToRoute(AppRoute.ROOT)))
-    .catch(() => {
-      errorCallback();
-    })
+    .catch(onError)
 );
 
-export const postComment = ({id, post}, callback) => (dispatch, _getState, api) => (
+export const postComment = ({id, post}, onError) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.COMMENTS}/${id}`, post)
     .then(({data}) => dispatch(addReview({id, comments: data})))
     .then(() => dispatch(redirectToRoute(`${APIRoute.FILMS}/${id}`)))
-    .catch(() => {
-      callback();
-    })
+    .catch(onError)
 );
 
 export const fetchComments = (id) => (dispatch, _getState, api) => (

@@ -13,7 +13,7 @@ const PlayButton = ({id}) => {
     history.push(`/player/${id}`);
   }, [id]);
 
-  return <MovieCardButton buttonText={BUTTON_TEXT} icon={ButtonIcon.PLAY} handleCallback={handleClick}/>;
+  return <MovieCardButton buttonText={BUTTON_TEXT} icon={ButtonIcon.PLAY} handleClick={handleClick}/>;
 };
 
 PlayButton.propTypes = {id: PropTypes.string.isRequired};

@@ -3,11 +3,13 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {Redirect, Route} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../constants/constant';
+import {selectFilmsData} from '../../store/films-data/selectors';
+import {selectUserData} from '../../store/user/selectors';
 import Loader from '../loader/loading-screen';
 
 const PrivateRoute = ({render, path, exact}) => {
-  const {authorizationStatus} = useSelector((state) => state.USER);
-  const {isDataLoaded} = useSelector((state) => state.DATA);
+  const {authorizationStatus} = useSelector(selectUserData);
+  const {isDataLoaded} = useSelector(selectFilmsData);
 
   if (!isDataLoaded) {
     return (
@@ -15,17 +17,19 @@ const PrivateRoute = ({render, path, exact}) => {
     );
   }
 
+  const isAuth = authorizationStatus === AuthorizationStatus.AUTH;
+
+  const handleRender = (routeProps) => {
+    return (
+      isAuth ? render(routeProps) : <Redirect to={AppRoute.LOGIN}/>
+    );
+  };
+
   return (
     <Route
       path={path}
       exact={exact}
-      render={(routeProps) => {
-        return (
-          authorizationStatus === AuthorizationStatus.AUTH
-            ? render(routeProps)
-            : <Redirect to={AppRoute.LOGIN}/>
-        );
-      }}
+      render={handleRender}
     />
   );
 };

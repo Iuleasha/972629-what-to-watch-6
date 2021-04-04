@@ -1,9 +1,8 @@
 import MockAdapter from 'axios-mock-adapter';
 import {filmsAdapter} from '../adapters/films';
-import {APIRoute} from '../constants/constant';
+import {ActionType, APIRoute} from '../constants/constant';
 import {FILM_MOCK} from '../constants/mock';
 import {createAPI} from '../services/api';
-import {ActionType} from './action';
 import {fetchFilmsList} from './api-actions';
 
 const api = createAPI(() => {

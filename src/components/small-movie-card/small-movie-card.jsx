@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
-import {useDebounce} from '../../hooks/debounce';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useHistory} from 'react-router-dom';
+import {AppRoute} from '../../constants/constant';
 import {FilmType} from '../../types/types';
 import VideoPlayer from '../video-player/video-player';
 
@@ -8,44 +8,56 @@ const ImageSize = {
   WIDTH: 280,
   HEIGHT: 175,
 };
+
 const PLAYBACK_DELAY = 1000;
 
 const SmallMovieCard = ({film}) => {
-  const [isHovered, hover] = useState(false);
+  let timeoutId;
+  const [isPreviewStart, setIsPreviewStart] = useState(false);
+  const {push} = useHistory();
 
-  const [isPreviewStart, showPreview] = useState(false);
+  const handleMouseEnter = useCallback(() => {
+    clearTimeout(timeoutId);
 
-  const debouncedSearchTerm = useDebounce(isHovered, PLAYBACK_DELAY);
+    timeoutId = setTimeout(() => {
+      setIsPreviewStart(true);
+    }, PLAYBACK_DELAY);
+  }, [isPreviewStart]);
 
-  const handleMouseEnter = () => {
-    hover(true);
-  };
+  const handleMouseLeave = useCallback(() => {
+    clearTimeout(timeoutId);
 
-  const handleMouseLeave = () => {
-    hover(false);
-    showPreview(false);
-  };
+    setIsPreviewStart(false);
+  }, [isPreviewStart]);
+
+  const handlerRouteToFilm = useCallback((evt) => {
+    evt.preventDefault();
+    clearTimeout(timeoutId);
+
+    push(`${AppRoute.FILMS}/${film.id}`);
+  }, []);
 
   useEffect(() => {
-    showPreview(isHovered);
-  }, [debouncedSearchTerm, isPreviewStart]);
+    clearTimeout(timeoutId);
+  }, [!isPreviewStart]);
 
   return (
     <article className="small-movie-card catalog__movies-card"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handlerRouteToFilm}
     >
-      <Link to={`/films/${film.id}`} className="small-movie-card__link">
+      <a href="#" className="small-movie-card__link">
         <div className="small-movie-card__image">
           {isPreviewStart &&
-          <VideoPlayer src={film.previewVideoLink} hasCustomControls={false} isAutoPlay={true} isMuted={true} />}
+          <VideoPlayer src={film.previewVideoLink} hasCustomControls={false} isAutoPlay={true} isMuted={true}/>}
           {!isPreviewStart &&
           <img src={film.posterImage} alt={film.name} width={ImageSize.WIDTH} height={ImageSize.HEIGHT}/>}
         </div>
         <h3 className="small-movie-card__title">
           <span>{film.name}</span>
         </h3>
-      </Link>
+      </a>
     </article>
   );
 };

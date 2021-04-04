@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {HeaderMode, PosterSize} from '../../constants/constant';
 import {fetchPromoFilm} from '../../store/api-actions';
+import {selectFilmsData} from '../../store/films-data/selectors';
 import Header from '../header/header';
 import MyListButton from '../my-list-button/my-list-button';
 import PlayButton from '../play-button/play-button';
@@ -9,21 +10,23 @@ import PlayButton from '../play-button/play-button';
 import './preview-card.css';
 
 const PreviewCard = () => {
-  const {preview} = useSelector((state) => state.DATA);
+  const {preview} = useSelector(selectFilmsData);
+
+  const isPreviewExist = preview === null;
 
   const dispatch = useDispatch();
 
-  const onLoadData = () => {
+  const handleLoadData = () => {
     dispatch(fetchPromoFilm());
   };
 
   useEffect(() => {
-    if (preview === null) {
-      onLoadData();
+    if (isPreviewExist) {
+      handleLoadData();
     }
-  }, [preview !== null]);
+  }, [!isPreviewExist]);
 
-  if (preview === null) {
+  if (isPreviewExist) {
     return <section className="movie-card empty-movie-card">
       <div className="movie-card__bg"/>
 

@@ -1,5 +1,5 @@
 import * as PropTypes from 'prop-types';
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {postComment} from '../../store/api-actions';
 
@@ -18,42 +18,38 @@ const ReviewForm = ({filmId}) => {
   const [showError, setShowError] = useState(false);
   const [disableForm, setDisableForm] = useState(false);
 
-  const handleFieldChange = (evt) => {
+  const handleFieldChange = useCallback((evt) => {
     setRating(Number(evt.target.value));
-  };
+  }, [setRating]);
+
+  const handleAddReviewError = useCallback(() => {
+    setShowError(true);
+    setDisableForm(false);
+  }, [disableForm, showError]);
+
+  const handleChange = useCallback(() => {
+    setFormValid(formRef.current.checkValidity());
+  }, [isFormValid]);
 
   const textRef = useRef();
   const formRef = useRef();
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = useCallback((evt) => {
     evt.preventDefault();
 
     if (!disableForm) {
       setDisableForm(true);
       setShowError(false);
 
-      onSubmitReview({
+      dispatch(postComment({
         id: filmId,
         post: {
           rating,
           comment: textRef.current.value,
         },
-      }, onAddReviewError);
+      }, handleAddReviewError));
     }
-  };
-
-  const onAddReviewError = () => {
-    setShowError(true);
-    setDisableForm(false);
-  };
-
-  const onSubmitReview = (post, callback) => {
-    dispatch(postComment(post, callback));
-  };
-
-  const handleChange = () => {
-    setFormValid(formRef.current.checkValidity());
-  };
+  }, []);
 
   return (
     <div className="add-review">

@@ -2,6 +2,7 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {Redirect, Route, Switch} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../constants/constant';
+import {selectUserData} from '../../store/user/selectors';
 import AddReview from '../add-review/add-review';
 import Film from '../film/film';
 import MainPage from '../main/main';
@@ -12,7 +13,7 @@ import PrivateRoute from '../private-route/private-route';
 import SignIn from '../sign-in/sign-in';
 
 const App = () => {
-  const {authorizationStatus} = useSelector((state) => state.USER);
+  const {authorizationStatus} = useSelector(selectUserData);
 
   return (
     <Switch>

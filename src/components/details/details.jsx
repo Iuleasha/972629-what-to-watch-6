@@ -3,7 +3,6 @@ import {FilmType} from '../../types/types';
 import {formatTotalDuration} from '../../utils/utils';
 
 const Details = ({film}) => {
-
   const filmsArray = film.length - 1;
   const filmDetails = film.starring.map((item, index) => <span
     key={`starring-${index}`}>{item}{index < filmsArray ? `,` : ``} <br/></span>);

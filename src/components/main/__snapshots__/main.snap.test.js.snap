@@ -177,7 +177,7 @@ exports[`Should MainPage render correctly 1`] = `
         >
           <a
             class="small-movie-card__link"
-            href="/films/1"
+            href="#"
           >
             <div
               class="small-movie-card__image"

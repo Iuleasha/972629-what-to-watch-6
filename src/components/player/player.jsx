@@ -1,11 +1,12 @@
 import * as PropTypes from 'prop-types';
 import React, {useMemo} from 'react';
 import {useSelector} from 'react-redux';
+import {selectFilmsData} from '../../store/films-data/selectors';
 import Loader from '../loader/loading-screen';
 import VideoPlayer from '../video-player/video-player';
 
 const Player = ({match}) => {
-  const {films, isDataLoaded} = useSelector((state) => state.DATA);
+  const {films, isDataLoaded} = useSelector(selectFilmsData);
 
   const {id} = match.params;
 

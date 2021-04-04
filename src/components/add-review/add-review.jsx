@@ -2,12 +2,13 @@ import * as PropTypes from 'prop-types';
 import React, {useMemo, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {PosterSize} from '../../constants/constant';
+import {selectFilmsData} from '../../store/films-data/selectors';
 import ReviewForm from '../add-review-form/add-review-form';
 import Header from '../header/header';
 
 const AddReview = ({match}) => {
   const {id} = match.params;
-  const {films} = useSelector((state) => state.DATA);
+  const {films} = useSelector(selectFilmsData);
 
   const [reviewForm, setReviewForm] = useState({
     rating: ``,

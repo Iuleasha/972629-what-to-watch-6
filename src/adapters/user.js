@@ -1,4 +1,4 @@
-export const userAdapter = ({
+export const adaptUserData = ({
   id = ``,
   email = ``,
   name = ``,

@@ -50,3 +50,25 @@ export const ButtonIcon = {
   INLIST: `#in-list`,
   ADD: `#add`,
 };
+
+export const NameSpace = {
+  DATA: `DATA`,
+  COMMENTS: `COMMENTS`,
+  USER: `USER`,
+};
+
+export const ActionType = {
+  LOAD_SUCCESS: `load/loadSuccess`,
+  LOAD_PROMO_FILM: `load/loadPromoFilm`,
+  SET_GENRE: `filter/genres`,
+  LOAD_FAVORITE: `load/favorite`,
+  SWITCH_FAVORITE_STATUS: `load/switchFavoriteStatus`,
+  REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
+  REDIRECT_TO_ROUTE: `site/redirectToRoute`,
+  SET_USER: `user/setUser`,
+  ADD_REVIEW: `film/addReview`,
+};
+
+export const FILMS_PAGE_SIZE = 8;
+
+export const AVATAR_SIZE = 63;

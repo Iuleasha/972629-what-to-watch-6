@@ -1,10 +1,10 @@
-import {filmAdapter} from '../../adapters/films';
+import {adaptFilmData} from '../../adapters/films';
 import {DEFAULT_GENRE} from '../../constants/constant';
 import {FILM_MOCK} from '../../constants/mock';
 import {loadFavorite, loadFilms, loadPromoFilm, setGenre, switchFavoriteStatus} from '../action';
 import {filmsData} from './films-data';
 
-const MOCK_FILM = filmAdapter(FILM_MOCK);
+const MOCK_FILM = adaptFilmData(FILM_MOCK);
 
 describe(`Reducers work correctly`, () => {
   it(`Reducer should set active genre by a given value`, () => {

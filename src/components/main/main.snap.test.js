@@ -4,7 +4,7 @@ import {createMemoryHistory} from 'history';
 import React from 'react';
 import {Provider} from 'react-redux';
 import {Router} from 'react-router-dom';
-import {filmAdapter, filmsAdapter} from '../../adapters/films';
+import {adaptFilmData, filmsAdapter} from '../../adapters/films';
 import {FILM_MOCK} from '../../constants/mock';
 import {loadFilms, loadPromoFilm} from '../../store/action';
 import reducer from '../../store/root-reducer';
@@ -14,7 +14,7 @@ const store = configureStore({reducer});
 
 store.dispatch((dispatch) => {
   dispatch(loadFilms(filmsAdapter([FILM_MOCK])));
-  dispatch(loadPromoFilm(filmAdapter(FILM_MOCK)));
+  dispatch(loadPromoFilm(adaptFilmData(FILM_MOCK)));
 });
 
 test(`Should MainPage render correctly`, () => {

@@ -2,14 +2,15 @@ import PropTypes from 'prop-types';
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchComments} from '../../store/api-actions';
+import {selectCommentsData} from '../../store/comments-data/selectors';
 import {formatDate} from '../../utils/utils';
 
 const Reviews = ({filmId}) => {
-  const {comments} = useSelector((state) => state.COMMENTS);
+  const {comments} = useSelector(selectCommentsData);
 
   const dispatch = useDispatch();
 
-  const onLoadComments = () => {
+  const handleLoadComments = () => {
     dispatch(fetchComments(filmId));
   };
 
@@ -28,7 +29,7 @@ const Reviews = ({filmId}) => {
 
   useEffect(() => {
     if (!comments[filmId]) {
-      onLoadComments();
+      handleLoadComments();
     }
   }, [comments[filmId]]);
 

@@ -2,23 +2,24 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {HeaderMode} from '../../constants/constant';
 import {fetchFavorite} from '../../store/api-actions';
+import {selectFilmsData} from '../../store/films-data/selectors';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Loader from '../loader/loading-screen';
 import MovieList from '../movie-list/movie-list';
 
 const MyList = () => {
-  const {favorite} = useSelector((state) => state.DATA);
+  const {favorite} = useSelector(selectFilmsData);
 
   const dispatch = useDispatch();
 
-  const onLoadData = () => {
+  const handleLoadData = () => {
     dispatch(fetchFavorite());
   };
 
   useEffect(() => {
     if (favorite === undefined) {
-      onLoadData();
+      handleLoadData();
     }
   }, [favorite !== undefined]);
 

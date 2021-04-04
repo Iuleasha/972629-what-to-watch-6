@@ -1,9 +1,8 @@
-import {filmAdapter, filmsAdapter} from '../adapters/films';
-import {userAdapter} from '../adapters/user';
-import {AppRoute, AuthorizationStatus} from '../constants/constant';
+import {adaptFilmData, filmsAdapter} from '../adapters/films';
+import {adaptUserData} from '../adapters/user';
+import {ActionType, AppRoute, AuthorizationStatus} from '../constants/constant';
 import {AUTH_INFO_MOCK, COMMENT_MOCK, FILM_MOCK} from '../constants/mock';
 import {
-  ActionType,
   addReview,
   loadFavorite,
   loadFilms,
@@ -63,7 +62,7 @@ describe(`Action creators work correctly`, () => {
   });
 
   it(`Action creator for get user returns correct action`, function () {
-    const user = userAdapter(AUTH_INFO_MOCK);
+    const user = adaptUserData(AUTH_INFO_MOCK);
     const expectedAction = {
       type: ActionType.SET_USER,
       payload: user,
@@ -96,7 +95,7 @@ describe(`Action creators work correctly`, () => {
   });
 
   it(`Action creator for change favorites status returns correct action`, function () {
-    const film = filmAdapter(FILM_MOCK);
+    const film = adaptFilmData(FILM_MOCK);
     const expectedAction = {
       type: ActionType.SWITCH_FAVORITE_STATUS,
       payload: film,

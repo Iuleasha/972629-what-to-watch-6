@@ -3,6 +3,8 @@ import React, {useMemo} from 'react';
 import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {AuthorizationStatus, HeaderMode} from '../../constants/constant';
+import {selectFilmsData} from '../../store/films-data/selectors';
+import {selectUserData} from '../../store/user/selectors';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Loader from '../loader/loading-screen';
@@ -13,8 +15,8 @@ import PlayButton from '../play-button/play-button';
 import Tabs from '../tabs/tabs';
 
 const Film = ({match}) => {
-  const {films, isDataLoaded} = useSelector((state) => state.DATA);
-  const {authorizationStatus} = useSelector((state) => state.USER);
+  const {films, isDataLoaded} = useSelector(selectFilmsData);
+  const {authorizationStatus} = useSelector(selectUserData);
 
   const {id} = match.params;
   const film = useMemo(() => films.find((item) => String(item.id) === id), [id, films]);

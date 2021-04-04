@@ -4,18 +4,15 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus, ButtonIcon} from '../../constants/constant';
 import {postFavoriteStatus} from '../../store/api-actions';
+import {selectUserData} from '../../store/user/selectors';
 import MovieCardButton from '../movie-card-button/movie-card-button';
 
 const BUTTON_TEXT = `My list`;
 
 const MyListButton = ({id, isFavorite}) => {
-  const {authorizationStatus} = useSelector((state) => state.USER);
+  const {authorizationStatus} = useSelector(selectUserData);
 
   const dispatch = useDispatch();
-
-  const onSwitchStatus = (info) => {
-    dispatch(postFavoriteStatus(info));
-  };
 
   const [status, switchStatus] = useState(isFavorite);
 
@@ -31,18 +28,20 @@ const MyListButton = ({id, isFavorite}) => {
     }
 
     switchStatus(!status);
-    onSwitchStatus({
+
+    dispatch(postFavoriteStatus({
       id,
       status: Number(!status),
-    });
+    }));
   }, [status, id, authorizationStatus]);
 
-  useEffect(()=>{
+  const icon = status ? ButtonIcon.INLIST : ButtonIcon.ADD;
+
+  useEffect(() => {
     switchStatus(isFavorite);
   }, [isFavorite]);
 
-  return <MovieCardButton buttonText={BUTTON_TEXT} icon={status ? ButtonIcon.INLIST : ButtonIcon.ADD}
-    handleCallback={handleSwitch}/>;
+  return <MovieCardButton buttonText={BUTTON_TEXT} icon={icon} handleClick={handleSwitch}/>;
 };
 
 MyListButton.propTypes = {
