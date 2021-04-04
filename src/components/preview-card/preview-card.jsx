@@ -6,6 +6,8 @@ import Header from '../header/header';
 import MyListButton from '../my-list-button/my-list-button';
 import PlayButton from '../play-button/play-button';
 
+import './preview-card.css';
+
 const PreviewCard = () => {
   const {preview} = useSelector((state) => state.DATA);
 
@@ -22,8 +24,15 @@ const PreviewCard = () => {
   }, [preview !== null]);
 
   if (preview === null) {
-    return <section className="movie-card">
+    return <section className="movie-card empty-movie-card">
       <div className="movie-card__bg"/>
+
+      <h1 className="visually-hidden">WTW</h1>
+
+      <Header type={HeaderMode.MOVIE_CARD}/>
+
+      <h1 className="no-data">No data</h1>
+      <h2 className="no-data">Try later</h2>
     </section>;
   }
 

@@ -57,6 +57,7 @@ exports[`Should SignIn render correctly 1`] = `
               id="user-email"
               name="user-email"
               placeholder="Email address"
+              required=""
               type="email"
             />
             <label
@@ -75,6 +76,7 @@ exports[`Should SignIn render correctly 1`] = `
               id="user-password"
               name="user-password"
               placeholder="Password"
+              required=""
               type="password"
             />
             <label

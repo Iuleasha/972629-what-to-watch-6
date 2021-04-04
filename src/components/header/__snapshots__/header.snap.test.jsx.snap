@@ -150,8 +150,9 @@ exports[`Test Header Should render correctly with user 1`] = `
     <div
       class="user-block"
     >
-      <div
+      <a
         class="user-block__avatar"
+        href="/mylist"
       >
         <img
           alt="Oliver.conner"
@@ -159,7 +160,7 @@ exports[`Test Header Should render correctly with user 1`] = `
           src="img/1.png"
           width="63"
         />
-      </div>
+      </a>
       <a
         class="user-block__link"
         href="#"

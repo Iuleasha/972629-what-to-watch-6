@@ -1,7 +1,7 @@
 import * as PropTypes from 'prop-types';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../constants/constant';
 import {logOut} from '../../store/api-actions';
 import {BreadcrumbsType, HeaderClass, HeaderTitleType} from '../../types/types';

@@ -8,7 +8,7 @@ import App from './components/app/app';
 import {AuthorizationStatus} from './constants/constant';
 import {createAPI} from './services/api';
 import {requireAuthorization} from './store/action';
-import {checkAuth, fetchFilmsList} from './store/api-actions';
+import {checkAuth} from './store/api-actions';
 import {redirect} from './store/middlewares/redirect';
 import reducer from './store/root-reducer';
 
@@ -26,10 +26,7 @@ const store = configureStore({
     }).concat(redirect),
 });
 
-store.dispatch((dispatch) => Promise.all([
-  dispatch(checkAuth()),
-  dispatch(fetchFilmsList()),
-]));
+store.dispatch(checkAuth());
 
 ReactDOM.render(
     <Provider store={store}>

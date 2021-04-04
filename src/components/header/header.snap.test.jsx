@@ -13,7 +13,6 @@ import Header from './header';
 
 const store = configureStore({reducer});
 
-
 describe(`Test Header`, () => {
   const history = createMemoryHistory();
 

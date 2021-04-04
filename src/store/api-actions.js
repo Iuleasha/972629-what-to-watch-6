@@ -17,11 +17,9 @@ export const fetchFilmsList = () => (dispatch, _getState, api) => (
     .then(({data}) => {
       dispatch(loadFilms(filmsAdapter(data)));
     })
-);
-
-export const fetchFilm = (id) => (dispatch, _getState, api) => (
-  api.get(`${APIRoute.FILM}/${id}`)
-    .then(({data}) => dispatch(loadPromoFilm(filmAdapter(data))))
+    .catch(() => {
+      dispatch(loadFilms([]));
+    })
 );
 
 export const fetchPromoFilm = () => (dispatch, _getState, api) => (
@@ -45,7 +43,10 @@ export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(({data}) => dispatch(setUser(userAdapter(data))))
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
-    .catch(() => {})
+    .then(() => dispatch(fetchFilmsList()))
+    .catch(() => {
+      dispatch(fetchFilmsList());
+    })
 );
 
 export const logOut = () => (dispatch, _getState, api) => (
@@ -54,17 +55,23 @@ export const logOut = () => (dispatch, _getState, api) => (
     .catch(() => {})
 );
 
-export const login = (loginData) => (dispatch, _getState, api) => (
+export const login = (loginData, errorCallback) => (dispatch, _getState, api) => (
   api.post(APIRoute.LOGIN, loginData)
     .then(({data}) => dispatch(setUser(userAdapter(data))))
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
     .then(() => dispatch(redirectToRoute(AppRoute.ROOT)))
+    .catch(() => {
+      errorCallback();
+    })
 );
 
-export const postComment = ({id, post}) => (dispatch, _getState, api) => (
+export const postComment = ({id, post}, callback) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.COMMENTS}/${id}`, post)
     .then(({data}) => dispatch(addReview({id, comments: data})))
     .then(() => dispatch(redirectToRoute(`${APIRoute.FILMS}/${id}`)))
+    .catch(() => {
+      callback();
+    })
 );
 
 export const fetchComments = (id) => (dispatch, _getState, api) => (

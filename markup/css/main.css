@@ -1416,3 +1416,5 @@ main {
   align-items: center;
   justify-content: center;
 }
+
+.error-message {color: #A8421E; text-align: center}

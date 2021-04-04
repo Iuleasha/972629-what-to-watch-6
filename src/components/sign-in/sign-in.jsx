@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {login} from '../../store/api-actions';
 import Footer from '../footer/footer';
@@ -10,13 +10,21 @@ const SignIn = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
 
+  const [showError, setShowError] = useState(false);
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
+
+    setShowError(false);
 
     dispatch(login({
       email: emailRef.current.value,
       password: passwordRef.current.value,
-    }));
+    }, onAddReviewError));
+  };
+
+  const onAddReviewError = () => {
+    setShowError(true);
   };
 
   return (<div className="user-page">
@@ -30,6 +38,7 @@ const SignIn = () => {
             <input ref={emailRef} className="sign-in__input" type="email" placeholder="Email address"
               name="user-email"
               id="user-email"
+              required
               data-testid="email"/>
             <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
           </div>
@@ -37,6 +46,7 @@ const SignIn = () => {
             <input ref={passwordRef} className="sign-in__input" type="password" placeholder="Password"
               name="user-password"
               id="user-password"
+              required
               data-testid="password"/>
             <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
           </div>
@@ -44,6 +54,7 @@ const SignIn = () => {
         <div className="sign-in__submit">
           <button className="sign-in__btn" type="submit">Sign in</button>
         </div>
+        {showError && <h3 className="error-message">Error. Try sign in letter.</h3>}
       </form>
     </div>
     <Footer/>

@@ -15,6 +15,9 @@ const ReviewForm = ({filmId}) => {
   const [isFormValid, setFormValid] = useState(false);
   const [rating, setRating] = useState(RATING_DEFAULT_VALUE);
 
+  const [showError, setShowError] = useState(false);
+  const [disableForm, setDisableForm] = useState(false);
+
   const handleFieldChange = (evt) => {
     setRating(Number(evt.target.value));
   };
@@ -25,17 +28,27 @@ const ReviewForm = ({filmId}) => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    onSubmitReview({
-      id: filmId,
-      post: {
-        rating,
-        comment: textRef.current.value,
-      },
-    });
+    if (!disableForm) {
+      setDisableForm(true);
+      setShowError(false);
+
+      onSubmitReview({
+        id: filmId,
+        post: {
+          rating,
+          comment: textRef.current.value,
+        },
+      }, onAddReviewError);
+    }
   };
 
-  const onSubmitReview = (post) => {
-    dispatch(postComment(post));
+  const onAddReviewError = () => {
+    setShowError(true);
+    setDisableForm(false);
+  };
+
+  const onSubmitReview = (post, callback) => {
+    dispatch(postComment(post, callback));
   };
 
   const handleChange = () => {
@@ -49,7 +62,8 @@ const ReviewForm = ({filmId}) => {
           <div className="rating__stars">
             {RATING_STARS.map((item) => <React.Fragment key={`rating-star-${item}`}>
               <input className="rating__input" id={`star-${item}`} type="radio" name="rating" defaultValue={item}
-                defaultChecked={item === RATING_DEFAULT_VALUE} onChange={handleFieldChange} required/>
+                defaultChecked={item === RATING_DEFAULT_VALUE} onChange={handleFieldChange} required
+                disabled={disableForm}/>
               <label className="rating__label" htmlFor={`star-${item}`}>Rating {item}</label>
             </React.Fragment>)}
           </div>
@@ -58,11 +72,12 @@ const ReviewForm = ({filmId}) => {
           <textarea ref={textRef} className="add-review__textarea" name="comment" id="review-text"
             placeholder="Review text"
             defaultValue={``} maxLength={MAX_COMMENT_LENGTH}
-            minLength={MIN_COMMENT_LENGTH} required/>
+            minLength={MIN_COMMENT_LENGTH} required disabled={disableForm}/>
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit" disabled={!isFormValid}>Post</button>
+            <button className="add-review__btn" type="submit" disabled={!isFormValid || disableForm}>Post</button>
           </div>
         </div>
+        {showError && <h3 className="error-message">Error. Try send review letter.</h3>}
       </form>
     </div>
   );

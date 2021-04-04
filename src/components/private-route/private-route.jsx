@@ -3,9 +3,17 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {Redirect, Route} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../constants/constant';
+import Loader from '../loader/loading-screen';
 
 const PrivateRoute = ({render, path, exact}) => {
   const {authorizationStatus} = useSelector((state) => state.USER);
+  const {isDataLoaded} = useSelector((state) => state.DATA);
+
+  if (!isDataLoaded) {
+    return (
+      <Loader/>
+    );
+  }
 
   return (
     <Route
