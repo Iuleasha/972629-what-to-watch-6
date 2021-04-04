@@ -28,7 +28,7 @@ const SmallMovieCard = ({film}) => {
 
   useEffect(() => {
     showPreview(isHovered);
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, isPreviewStart]);
 
   return (
     <article className="small-movie-card catalog__movies-card"

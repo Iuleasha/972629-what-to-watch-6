@@ -2,7 +2,7 @@ import * as PropTypes from 'prop-types';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link, useHistory} from 'react-router-dom';
-import {AuthorizationStatus} from '../../constants/constant';
+import {AppRoute, AuthorizationStatus} from '../../constants/constant';
 import {logOut} from '../../store/api-actions';
 import {BreadcrumbsType, HeaderClass, HeaderTitleType} from '../../types/types';
 import Logo from '../logo/logo';
@@ -17,12 +17,6 @@ const Header = ({title, breadcrumbs, type, showUserBlock = true}) => {
   const dispatch = useDispatch();
 
   const isLogIn = authorizationStatus === AuthorizationStatus.AUTH;
-
-  const history = useHistory();
-
-  const handleClick = () => {
-    history.push(`/mylist/`);
-  };
 
   const handleSignOut = (evt) => {
     evt.preventDefault();
@@ -52,10 +46,10 @@ const Header = ({title, breadcrumbs, type, showUserBlock = true}) => {
 
       {showUserBlock && <div className="user-block">
         {isLogIn ? <>
-          <div className="user-block__avatar" onClick={handleClick}>
+          <Link className="user-block__avatar" to={AppRoute.MY_LIST}>
             <img src={user.avatarUrl} alt={user.name} width={AVATAR_DESCRIPTION.AVATAR_SIZE}
               height={AVATAR_DESCRIPTION.AVATAR_SIZE}/>
-          </div>
+          </Link>
           <a href="#" onClick={handleSignOut} className="user-block__link">Sign Out</a></> :
 
           <Link to={`/login`} className="user-block__link">Sign in</Link>}

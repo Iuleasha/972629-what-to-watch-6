@@ -48,11 +48,18 @@ const VideoPlayer = ({isAutoPlay, isMuted, hasCustomControls, src, name, filmId}
     }
   }, [isRunning]);
 
+  useEffect(() => {
+    if (isAutoPlay) {
+      videoRef.current.play();
+    } else {
+      videoRef.current.pause();
+    }
+  }, [isAutoPlay]);
+
   useInterval(() => {
     setCurrentTime(Math.round(videoRef.current.currentTime));
     setDuration(Math.round(videoRef.current.duration - currentTime));
   }, isRunning ? TIME_INTERVAL : null);
-
 
   return (
     <>
