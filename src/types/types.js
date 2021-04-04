@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 export const FilmType = PropTypes.shape({
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   posterImage: PropTypes.string.isRequired,
   backgroundImage: PropTypes.string.isRequired,
@@ -34,14 +34,5 @@ export const BreadcrumbsType = PropTypes.shape({
 export const HeaderClass = PropTypes.string;
 export const OnSelectGenre = PropTypes.func.isRequired;
 export const ActiveFilter = PropTypes.string.isRequired;
-export const ActiveGenre = PropTypes.string.isRequired;
 export const GenresType = PropTypes.arrayOf(PropTypes.string);
-
-export const HandleSubmitType = PropTypes.func.isRequired;
-export const HandleFieldChangeType = PropTypes.func.isRequired;
-
-export const UserType = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  avatarUrl: PropTypes.string.isRequired,
-});
 

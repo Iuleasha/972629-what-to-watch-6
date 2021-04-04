@@ -5,7 +5,7 @@ export const userAdapter = ({
   avatar_url: avatarUrl = ``,
 }) => {
   return {
-    id,
+    id: id.toString(),
     email,
     name,
     avatarUrl,

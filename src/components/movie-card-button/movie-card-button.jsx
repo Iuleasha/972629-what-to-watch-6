@@ -8,14 +8,14 @@ const MovieCardButton = ({icon, buttonText, handleCallback}) =>{
       width={MovieCardButtonSize.WIDTH} height={MovieCardButtonSize.HEIGHT}>
       <use xlinkHref={icon}/>
     </svg>}
-    <span>{buttonText}</span>
+    {buttonText && <span>{buttonText}</span>}
   </button>;
 };
 
 MovieCardButton.propTypes = {
   icon: PropTypes.string,
-  buttonText: PropTypes.string.isRequired,
-  handleCallback: PropTypes.func.isRequired,
+  buttonText: PropTypes.string,
+  handleCallback: PropTypes.func,
 };
 
 export default MovieCardButton;

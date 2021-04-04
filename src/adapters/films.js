@@ -1,5 +1,5 @@
 export const filmAdapter = ({
-  id,
+  id = ``,
   name = ``,
   poster_image: posterImage,
   preview_image: previewImage,
@@ -18,7 +18,7 @@ export const filmAdapter = ({
   preview_video_link: previewVideoLink,
 }) => {
   return {
-    id,
+    id: id.toString(),
     name,
     posterImage,
     previewImage,

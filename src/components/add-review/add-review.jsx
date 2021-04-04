@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import * as PropTypes from 'prop-types';
+import React, {useMemo, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {useParams} from 'react-router-dom';
 import {PosterSize} from '../../constants/constant';
 import ReviewForm from '../add-review-form/add-review-form';
 import Header from '../header/header';
 
-const AddReview = () => {
-  const {id} = useParams();
+const AddReview = ({match}) => {
+  const {id} = match.params;
   const {films} = useSelector((state) => state.DATA);
 
   const [reviewForm, setReviewForm] = useState({
@@ -24,7 +24,7 @@ const AddReview = () => {
     setReviewForm({...reviewForm, [name]: value});
   };
 
-  const {name, posterImage, backgroundImage} = films.find((item) => String(item.id) === id);
+  const {name, posterImage, backgroundImage} = useMemo(() => films.find((item) => String(item.id) === id), [id]);
 
   return (<section className="movie-card movie-card--full">
     <div className="movie-card__header">
@@ -41,9 +41,17 @@ const AddReview = () => {
       </div>
     </div>
 
-    <ReviewForm handleSubmit={handleSubmit} handleFieldChange={handleFieldChange}/>
+    <ReviewForm handleSubmit={handleSubmit} handleFieldChange={handleFieldChange} filmId={id}/>
   </section>
   );
+};
+
+AddReview.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
 };
 
 export default AddReview;

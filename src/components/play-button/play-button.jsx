@@ -16,6 +16,6 @@ const PlayButton = ({id}) => {
   return <MovieCardButton buttonText={BUTTON_TEXT} icon={ButtonIcon.PLAY} handleCallback={handleClick}/>;
 };
 
-PlayButton.propTypes = {id: PropTypes.number.isRequired};
+PlayButton.propTypes = {id: PropTypes.string.isRequired};
 
 export default PlayButton;

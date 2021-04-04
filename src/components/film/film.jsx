@@ -1,6 +1,7 @@
+import * as PropTypes from 'prop-types';
 import React, {useMemo} from 'react';
 import {useSelector} from 'react-redux';
-import {Link, useParams} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {AuthorizationStatus, HeaderMode} from '../../constants/constant';
 import Footer from '../footer/footer';
 import Header from '../header/header';
@@ -11,9 +12,11 @@ import PageNotFound from '../page-not-found/page-not-found';
 import PlayButton from '../play-button/play-button';
 import Tabs from '../tabs/tabs';
 
-const Film = () => {
-  const {films, authorizationStatus, isDataLoaded} = useSelector((state) => state.DATA);
-  const {id} = useParams();
+const Film = ({match}) => {
+  const {films, isDataLoaded} = useSelector((state) => state.DATA);
+  const {authorizationStatus} = useSelector((state) => state.USER);
+
+  const {id} = match.params;
   const film = useMemo(() => films.find((item) => String(item.id) === id), [id, films]);
   const likeThisFilms = useMemo(() => films.filter((item) => item.genre === film.genre && item.id !== film.id).sort(() => Math.random() - 0.5).slice(0, 4), [id, films]);
   const isLogIn = authorizationStatus === AuthorizationStatus.AUTH;
@@ -67,6 +70,14 @@ const Film = () => {
       <Footer/>
     </div>
   </> : <PageNotFound/>);
+};
+
+Film.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
 };
 
 export default Film;

@@ -1,6 +1,6 @@
+import * as PropTypes from 'prop-types';
 import React, {useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {useParams} from 'react-router-dom';
 import {postComment} from '../../store/api-actions';
 
 const MIN_COMMENT_LENGTH = 50;
@@ -9,8 +9,7 @@ const STARS_LENGTH = 10;
 const RATING_DEFAULT_VALUE = 3;
 const RATING_STARS = [...Array(STARS_LENGTH).keys()].map((i) => i + 1);
 
-const ReviewForm = () => {
-  const {id} = useParams();
+const ReviewForm = ({filmId}) => {
   const dispatch = useDispatch();
 
   const [isFormValid, setFormValid] = useState(false);
@@ -27,7 +26,7 @@ const ReviewForm = () => {
     evt.preventDefault();
 
     onSubmitReview({
-      id, post: {
+      filmId, post: {
         rating,
         comment: textRef.current.value,
       },
@@ -66,6 +65,10 @@ const ReviewForm = () => {
       </form>
     </div>
   );
+};
+
+ReviewForm.propTypes = {
+  filmId: PropTypes.string,
 };
 
 export default ReviewForm;

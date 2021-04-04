@@ -26,7 +26,7 @@ const store = configureStore({
     }).concat(redirect),
 });
 
-store.dispatch((dispatch)=>Promise.all([
+store.dispatch((dispatch) => Promise.all([
   dispatch(checkAuth()),
   dispatch(fetchFilmsList()),
 ]));

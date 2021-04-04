@@ -70,7 +70,7 @@ const Reviews = ({filmId}) => {
 };
 
 Reviews.propTypes = {
-  filmId: PropTypes.number,
+  filmId: PropTypes.string,
 };
 
 export default Reviews;

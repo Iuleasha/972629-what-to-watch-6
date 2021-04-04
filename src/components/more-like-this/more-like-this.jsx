@@ -6,6 +6,7 @@ const MoreLikeThis = ({films}) => {
   return (<>
     <section className="catalog catalog--like-this">
       <h2 className="catalog__title">More like this</h2>
+
       <MovieList films={films}/>
     </section>
   </>);
