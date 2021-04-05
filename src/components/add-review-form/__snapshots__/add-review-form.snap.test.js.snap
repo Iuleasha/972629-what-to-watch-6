@@ -174,8 +174,8 @@ exports[`Should ReviewForm render correctly 1`] = `
         <textarea
           class="add-review__textarea"
           id="review-text"
-          maxlength="400"
-          minlength="50"
+          maxlength="50"
+          minlength="400"
           name="comment"
           placeholder="Review text"
           required=""

@@ -72,3 +72,22 @@ export const ActionType = {
 export const FILMS_PAGE_SIZE = 8;
 
 export const AVATAR_SIZE = 63;
+
+export const CommentLength = {
+  MIN: 50,
+  MAX: 400
+};
+
+export const STARS_LENGTH = 10;
+
+export const RATING_DEFAULT_VALUE = 3;
+
+export const RATING_STARS = [...Array(STARS_LENGTH).keys()].map((i) => i + 1);
+
+export const Rating = {
+  BAD: `Bad`,
+  NORMAL: `Normal`,
+  GOOD: `Good`,
+  VERY_GOOD: `Very good`,
+  AWESOME: `Awesome`,
+};

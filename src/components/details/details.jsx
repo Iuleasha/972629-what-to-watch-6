@@ -3,9 +3,9 @@ import {FilmType} from '../../types/types';
 import {formatTotalDuration} from '../../utils/utils';
 
 const Details = ({film}) => {
-  const filmsArray = film.length - 1;
-  const filmDetails = film.starring.map((item, index) => <span
-    key={`starring-${index}`}>{item}{index < filmsArray ? `,` : ``} <br/></span>);
+  const starring = film.starring.map((item, index, array) => <span
+    key={`details-starring-${index}`}>{item}{index < array.length - 1 ? `, ` : ``} <br/></span>);
+  const runTime = formatTotalDuration(film.runTime);
 
   return (<>
     <div className="movie-card__text movie-card__row">
@@ -17,7 +17,7 @@ const Details = ({film}) => {
         <p className="movie-card__details-item">
           <strong className="movie-card__details-name">Starring</strong>
           <span className="movie-card__details-value">
-            {filmDetails}
+            {starring}
           </span>
         </p>
       </div>
@@ -25,7 +25,7 @@ const Details = ({film}) => {
       <div className="movie-card__text-col">
         <p className="movie-card__details-item">
           <strong className="movie-card__details-name">Run Time</strong>
-          <span className="movie-card__details-value">{formatTotalDuration(film.runTime)}</span>
+          <span className="movie-card__details-value">{runTime}</span>
         </p>
         <p className="movie-card__details-item">
           <strong className="movie-card__details-name">Genre</strong>

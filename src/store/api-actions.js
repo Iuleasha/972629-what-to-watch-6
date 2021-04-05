@@ -18,7 +18,7 @@ export const fetchFilmsList = () => (dispatch, _getState, api) => (
       dispatch(loadFilms(filmsAdapter(data)));
     })
     .catch(() => {
-      dispatch(loadFilms());
+      dispatch(loadFilms([]));
     })
 );
 

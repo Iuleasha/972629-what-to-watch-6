@@ -35,25 +35,25 @@ exports[`Should Details render correctly 1`] = `
         >
           <span>
             Bill Murray
-            
+            , 
              
             <br />
           </span>
           <span>
             Edward Norton
-            
+            , 
              
             <br />
           </span>
           <span>
             Jude Law
-            
+            , 
              
             <br />
           </span>
           <span>
             Willem Dafoe
-            
+            , 
              
             <br />
           </span>

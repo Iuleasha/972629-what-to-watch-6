@@ -1,13 +1,8 @@
 import * as PropTypes from 'prop-types';
 import React, {useCallback, useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
+import {CommentLength, RATING_DEFAULT_VALUE, RATING_STARS} from '../../constants/constant';
 import {postComment} from '../../store/api-actions';
-
-const MIN_COMMENT_LENGTH = 50;
-const MAX_COMMENT_LENGTH = 400;
-const STARS_LENGTH = 10;
-const RATING_DEFAULT_VALUE = 3;
-const RATING_STARS = [...Array(STARS_LENGTH).keys()].map((i) => i + 1);
 
 const ReviewForm = ({filmId}) => {
   const dispatch = useDispatch();
@@ -67,13 +62,13 @@ const ReviewForm = ({filmId}) => {
         <div className="add-review__text">
           <textarea ref={textRef} className="add-review__textarea" name="comment" id="review-text"
             placeholder="Review text"
-            defaultValue={``} maxLength={MAX_COMMENT_LENGTH}
-            minLength={MIN_COMMENT_LENGTH} required disabled={disableForm}/>
+            defaultValue={``} maxLength={CommentLength.MIN}
+            minLength={CommentLength.MAX} required disabled={disableForm}/>
           <div className="add-review__submit">
             <button className="add-review__btn" type="submit" disabled={!isFormValid || disableForm}>Post</button>
           </div>
         </div>
-        {showError && <h3 className="error-message">Error. Try send review letter.</h3>}
+        {showError && <h3 className="error-message">Error. Try send review later.</h3>}
       </form>
     </div>
   );

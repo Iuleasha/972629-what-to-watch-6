@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test VideoPlayer Should video page render correctly with custom controls 1`] = `
+<div>
+  <video
+    autoplay=""
+    class="player__video"
+    src=""
+  />
+</div>
+`;
+
+exports[`Test VideoPlayer Should video preview render correctly 1`] = `
+<div>
+  <video
+    autoplay=""
+    class="player__video"
+    src=""
+  />
+</div>
+`;

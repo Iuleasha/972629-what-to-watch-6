@@ -54,7 +54,7 @@ const SignIn = () => {
         <div className="sign-in__submit">
           <button className="sign-in__btn" type="submit">Sign in</button>
         </div>
-        {showError && <h3 className="error-message">Error. Try sign in leter.</h3>}
+        {showError && <h3 className="error-message">Error. Try sign in later.</h3>}
       </form>
     </div>
     <Footer/>
