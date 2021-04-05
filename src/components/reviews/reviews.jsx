@@ -1,10 +1,19 @@
 import PropTypes from 'prop-types';
 import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {fetchComments} from '../../store/api-actions';
+import {selectCommentsData} from '../../store/comments-data/selectors';
 import {formatDate} from '../../utils/utils';
 
-const Reviews = ({filmId, onLoadComments, comments}) => {
+const Reviews = ({filmId}) => {
+  const {comments} = useSelector(selectCommentsData);
+
+  const dispatch = useDispatch();
+
+  const handleLoadComments = () => {
+    dispatch(fetchComments(filmId));
+  };
+
   let reviewsColLeft = [];
   let reviewsColRight = [];
 
@@ -20,7 +29,7 @@ const Reviews = ({filmId, onLoadComments, comments}) => {
 
   useEffect(() => {
     if (!comments[filmId]) {
-      onLoadComments(filmId);
+      handleLoadComments();
     }
   }, [comments[filmId]]);
 
@@ -62,20 +71,7 @@ const Reviews = ({filmId, onLoadComments, comments}) => {
 };
 
 Reviews.propTypes = {
-  onLoadComments: PropTypes.func,
-  filmId: PropTypes.number,
-  comments: PropTypes.any,
+  filmId: PropTypes.string,
 };
 
-const mapStateToProps = (state) => ({
-  comments: state.comments,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadComments(id) {
-    dispatch(fetchComments(id));
-  },
-});
-
-export {Reviews};
-export default connect(mapStateToProps, mapDispatchToProps)(Reviews);
+export default Reviews;

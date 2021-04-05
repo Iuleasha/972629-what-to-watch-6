@@ -1,20 +1,30 @@
-import * as PropTypes from 'prop-types';
-import React, {useRef} from 'react';
-import {connect} from 'react-redux';
+import React, {useRef, useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {login} from '../../store/api-actions';
 import Footer from '../footer/footer';
-import {Header} from '../header/header';
+import Header from '../header/header';
 
-const SignIn = ({onSubmit}) => {
+const SignIn = () => {
+  const dispatch = useDispatch();
+
   const emailRef = useRef();
   const passwordRef = useRef();
+
+  const [showError, setShowError] = useState(false);
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    onSubmit({
+    setShowError(false);
+
+    dispatch(login({
       email: emailRef.current.value,
       password: passwordRef.current.value,
-    });
+    }, onAddReviewError));
+  };
+
+  const onAddReviewError = () => {
+    setShowError(true);
   };
 
   return (<div className="user-page">
@@ -27,19 +37,24 @@ const SignIn = ({onSubmit}) => {
           <div className="sign-in__field">
             <input ref={emailRef} className="sign-in__input" type="email" placeholder="Email address"
               name="user-email"
-              id="user-email"/>
+              id="user-email"
+              required
+              data-testid="email"/>
             <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
           </div>
           <div className="sign-in__field">
             <input ref={passwordRef} className="sign-in__input" type="password" placeholder="Password"
               name="user-password"
-              id="user-password"/>
+              id="user-password"
+              required
+              data-testid="password"/>
             <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
           </div>
         </div>
         <div className="sign-in__submit">
           <button className="sign-in__btn" type="submit">Sign in</button>
         </div>
+        {showError && <h3 className="error-message">Error. Try sign in leter.</h3>}
       </form>
     </div>
     <Footer/>
@@ -47,15 +62,4 @@ const SignIn = ({onSubmit}) => {
   );
 };
 
-SignIn.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(authData) {
-    dispatch(login(authData));
-  },
-});
-
-export {SignIn};
-export default connect(null, mapDispatchToProps)(SignIn);
+export default SignIn;

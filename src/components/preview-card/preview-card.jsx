@@ -1,23 +1,41 @@
-import * as PropTypes from 'prop-types';
 import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
-import {HeaderMode, PosterSize} from '../../constant';
+import {useDispatch, useSelector} from 'react-redux';
+import {HeaderMode, PosterSize} from '../../constants/constant';
 import {fetchPromoFilm} from '../../store/api-actions';
-import {FilmType} from '../../types/types';
+import {selectFilmsData} from '../../store/films-data/selectors';
 import Header from '../header/header';
 import MyListButton from '../my-list-button/my-list-button';
 import PlayButton from '../play-button/play-button';
 
-const PreviewCard = ({preview, onLoadData}) => {
-  useEffect(() => {
-    if (preview === null) {
-      onLoadData();
-    }
-  }, [preview !== null]);
+import './preview-card.css';
 
-  if (preview === null) {
-    return <section className="movie-card">
+const PreviewCard = () => {
+  const {preview} = useSelector(selectFilmsData);
+
+  const isPreviewExist = preview === null;
+
+  const dispatch = useDispatch();
+
+  const handleLoadData = () => {
+    dispatch(fetchPromoFilm());
+  };
+
+  useEffect(() => {
+    if (isPreviewExist) {
+      handleLoadData();
+    }
+  }, [!isPreviewExist]);
+
+  if (isPreviewExist) {
+    return <section className="movie-card empty-movie-card">
       <div className="movie-card__bg"/>
+
+      <h1 className="visually-hidden">WTW</h1>
+
+      <Header type={HeaderMode.MOVIE_CARD}/>
+
+      <h1 className="no-data">No data</h1>
+      <h2 className="no-data">Try later</h2>
     </section>;
   }
 
@@ -54,17 +72,4 @@ const PreviewCard = ({preview, onLoadData}) => {
   </section>;
 };
 
-PreviewCard.propTypes = {preview: FilmType, onLoadData: PropTypes.func.isRequired};
-
-const mapStateToProps = (state) => ({
-  preview: state.preview,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
-    dispatch(fetchPromoFilm());
-  },
-});
-
-export {PreviewCard};
-export default connect(mapStateToProps, mapDispatchToProps)(PreviewCard);
+export default PreviewCard;

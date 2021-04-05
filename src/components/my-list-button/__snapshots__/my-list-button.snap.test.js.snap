@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test MyListButton Should render correctly if isFavorite false 1`] = `
+<div>
+  <button
+    class="btn movie-card__button"
+    type="button"
+  >
+    <svg
+      height="20"
+      viewBox="0 0 19 20"
+      width="19"
+    >
+      <use
+        xlink:href="#add"
+      />
+    </svg>
+    <span>
+      My list
+    </span>
+  </button>
+</div>
+`;
+
+exports[`Test MyListButton Should render correctly if isFavorite true 1`] = `
+<div>
+  <button
+    class="btn movie-card__button"
+    type="button"
+  >
+    <svg
+      height="20"
+      viewBox="0 0 19 20"
+      width="19"
+    >
+      <use
+        xlink:href="#in-list"
+      />
+    </svg>
+    <span>
+      My list
+    </span>
+  </button>
+</div>
+`;

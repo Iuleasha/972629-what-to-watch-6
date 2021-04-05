@@ -1,17 +1,25 @@
 import * as PropTypes from 'prop-types';
-import React, {useCallback, useState, useEffect} from 'react';
-import {connect} from 'react-redux';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus, ButtonIcon} from '../../constant';
-import {switchFavoriteStatus} from '../../store/api-actions';
+import {AppRoute, AuthorizationStatus, ButtonIcon} from '../../constants/constant';
+import {postFavoriteStatus} from '../../store/api-actions';
+import {selectUserData} from '../../store/user/selectors';
 import MovieCardButton from '../movie-card-button/movie-card-button';
 
 const BUTTON_TEXT = `My list`;
 
-const MyListButton = ({id, isFavorite, onSwitchStatus, authorizationStatus}) => {
+const MyListButton = ({id, isFavorite}) => {
+  const {authorizationStatus} = useSelector(selectUserData);
+
+  const dispatch = useDispatch();
+
   const [status, switchStatus] = useState(isFavorite);
+
   const history = useHistory();
+
   const isLogIn = authorizationStatus === AuthorizationStatus.AUTH;
+
   const handleSwitch = useCallback(() => {
     if (!isLogIn) {
       history.push(AppRoute.LOGIN);
@@ -20,36 +28,25 @@ const MyListButton = ({id, isFavorite, onSwitchStatus, authorizationStatus}) => 
     }
 
     switchStatus(!status);
-    onSwitchStatus({
+
+    dispatch(postFavoriteStatus({
       id,
       status: Number(!status),
-    });
+    }));
   }, [status, id, authorizationStatus]);
 
-  useEffect(()=>{
+  const icon = status ? ButtonIcon.INLIST : ButtonIcon.ADD;
+
+  useEffect(() => {
     switchStatus(isFavorite);
   }, [isFavorite]);
 
-  return <MovieCardButton buttonText={BUTTON_TEXT} icon={status ? ButtonIcon.INLIST : ButtonIcon.ADD}
-    handleCallback={handleSwitch}/>;
+  return <MovieCardButton buttonText={BUTTON_TEXT} icon={icon} handleClick={handleSwitch}/>;
 };
 
 MyListButton.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   isFavorite: PropTypes.bool.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
-  onSwitchStatus: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onSwitchStatus(info) {
-    dispatch(switchFavoriteStatus(info));
-  },
-});
-
-export {MyListButton};
-export default connect(mapStateToProps, mapDispatchToProps)(MyListButton);
+export default MyListButton;

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useHistory, useParams} from 'react-router-dom';
-import {ButtonIcon} from '../../constant';
+import React, {useEffect, useRef, useState} from 'react';
+import {useHistory} from 'react-router-dom';
+import {ButtonIcon} from '../../constants/constant';
 import {useInterval} from '../../hooks/use-interval';
 import {formatFilmDuration} from '../../utils/utils';
 
@@ -10,20 +10,32 @@ const FULL_SCREEN_BUTTON_SIZE = 27;
 const MAX_TOGGLER_LENGTH = 100;
 const TIME_INTERVAL = 1000;
 
-const VideoPlayer = ({isAutoPlay, isMuted, hasCustomControls, src, name}) => {
+const VideoPlayer = ({isAutoPlay, isMuted, hasCustomControls, src, name, filmId}) => {
   const {push} = useHistory();
-  const {id} = useParams();
+
   const videoRef = useRef();
+
   const [filmDuration, setDuration] = useState(0);
+
   const [isRunning, setIsRunning] = useState(false);
+
   const [currentTime, setCurrentTime] = useState(0);
+
   const [timeValue, setTimeValue] = useState(`00:00:00`);
 
-  const handlePlay = useCallback(() => {
+  const handlePlay = () => {
     setIsRunning(!isRunning);
-  }, [isRunning]);
+  };
 
-  useEffect(()=>{
+  const handlerExit = () => {
+    push(`/films/${filmId}`);
+  };
+
+  const openFullScreen = () => {
+    videoRef.current.requestFullscreen();
+  };
+
+  useEffect(() => {
     setTimeValue(formatFilmDuration(filmDuration));
   }, [filmDuration]);
 
@@ -36,18 +48,18 @@ const VideoPlayer = ({isAutoPlay, isMuted, hasCustomControls, src, name}) => {
     }
   }, [isRunning]);
 
+  useEffect(() => {
+    if (isAutoPlay) {
+      videoRef.current.play();
+    } else {
+      videoRef.current.pause();
+    }
+  }, [isAutoPlay]);
+
   useInterval(() => {
     setCurrentTime(Math.round(videoRef.current.currentTime));
     setDuration(Math.round(videoRef.current.duration - currentTime));
   }, isRunning ? TIME_INTERVAL : null);
-
-  const handlerExit = useCallback(() => {
-    push(`/films/${id}`);
-  }, [id]);
-
-  const openFullScreen = useCallback(() => {
-    videoRef.current.requestFullscreen();
-  }, []);
 
   return (
     <>
@@ -95,6 +107,7 @@ VideoPlayer.propTypes = {
   hasCustomControls: PropTypes.bool.isRequired,
   src: PropTypes.string.isRequired,
   name: PropTypes.string,
+  filmId: PropTypes.string,
 };
 
 export default VideoPlayer;

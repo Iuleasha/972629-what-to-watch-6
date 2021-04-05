@@ -1,18 +1,25 @@
-import * as PropTypes from 'prop-types';
 import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
-import {HeaderMode} from '../../constant';
+import {useDispatch, useSelector} from 'react-redux';
+import {HeaderMode} from '../../constants/constant';
 import {fetchFavorite} from '../../store/api-actions';
-import {FilmsType} from '../../types/types';
+import {selectFilmsData} from '../../store/films-data/selectors';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Loader from '../loader/loading-screen';
 import MovieList from '../movie-list/movie-list';
 
-const MyList = ({favorite, onLoadData}) => {
+const MyList = () => {
+  const {favorite} = useSelector(selectFilmsData);
+
+  const dispatch = useDispatch();
+
+  const handleLoadData = () => {
+    dispatch(fetchFavorite());
+  };
+
   useEffect(() => {
     if (favorite === undefined) {
-      onLoadData();
+      handleLoadData();
     }
   }, [favorite !== undefined]);
 
@@ -29,17 +36,4 @@ const MyList = ({favorite, onLoadData}) => {
   </div>);
 };
 
-MyList.propTypes = {favorite: FilmsType, onLoadData: PropTypes.func.isRequired};
-
-const mapStateToProps = (state) => ({
-  favorite: state.favorite,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
-    dispatch(fetchFavorite());
-  },
-});
-
-export {MyList};
-export default connect(mapStateToProps, mapDispatchToProps)(MyList);
+export default MyList;

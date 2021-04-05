@@ -1,24 +1,31 @@
-import PropTypes from 'prop-types';
-import React, {useCallback, useMemo, useState} from 'react';
-import {connect} from 'react-redux';
+import React, {useMemo, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {FILMS_PAGE_SIZE} from '../../constants/constant';
 import {sortByGenre} from '../../filter/filter';
-import {ActionCreator} from '../../store/action';
-import {ActiveGenre, FilmsType, GenresType, OnSelectGenre} from '../../types/types';
+import {setGenre} from '../../store/action';
+import {selectFilmsData} from '../../store/films-data/selectors';
 import CatalogGenres from '../catalog-genres/catalog-genres';
 import Footer from '../footer/footer';
 import Loader from '../loader/loading-screen';
 import MovieList from '../movie-list/movie-list';
 import MovieCard from '../preview-card/preview-card';
 
-const MAX_FILM_LENGTH = 8;
+const MainPage = () => {
+  const {genre, genres, films, isDataLoaded} = useSelector(selectFilmsData);
 
-const MainPage = (props) => {
-  const {films, onSelectGenre, genre, genres, isDataLoaded} = props;
-  const [maxLength, setLength] = useState(MAX_FILM_LENGTH);
+  const dispatch = useDispatch();
+
+  const handleSelectGenre = (selectedGenre) => {
+    dispatch(setGenre(selectedGenre));
+  };
+
+  const [maxLength, setLength] = useState(FILMS_PAGE_SIZE);
+
   const sortedFilms = useMemo(() => sortByGenre(films, genre), [films, genre]);
-  const showMoreButtonClick = useCallback(() => {
-    setLength((showedFilmsLength) => showedFilmsLength + MAX_FILM_LENGTH);
-  }, [setLength]);
+
+  const handleShowMoreButtonClick = () => {
+    setLength((showedFilmsLength) => showedFilmsLength + FILMS_PAGE_SIZE);
+  };
 
   const showedFilms = useMemo(() =>
     sortedFilms.slice(0, maxLength), [sortedFilms, genre, maxLength]);
@@ -29,6 +36,8 @@ const MainPage = (props) => {
     );
   }
 
+  const showMoreButton = sortedFilms.length > FILMS_PAGE_SIZE && maxLength < sortedFilms.length;
+
   return (<>
     <MovieCard/>
 
@@ -36,12 +45,12 @@ const MainPage = (props) => {
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <CatalogGenres genres={genres} onSelectGenre={onSelectGenre} activeFilter={genre}/>
+        <CatalogGenres genres={genres} onSelectGenre={handleSelectGenre} activeFilter={genre}/>
 
         <MovieList films={showedFilms}/>
 
-        {(sortedFilms.length > MAX_FILM_LENGTH && maxLength < sortedFilms.length) && <div className="catalog__more">
-          <button className="catalog__button" type="button" onClick={showMoreButtonClick}>Show more</button>
+        {showMoreButton && <div className="catalog__more">
+          <button className="catalog__button" type="button" onClick={handleShowMoreButtonClick}>Show more</button>
         </div>}
       </section>
 
@@ -50,26 +59,4 @@ const MainPage = (props) => {
   </>);
 };
 
-MainPage.propTypes = {
-  films: FilmsType,
-  onSelectGenre: OnSelectGenre,
-  genre: ActiveGenre,
-  genres: GenresType,
-  isDataLoaded: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  genre: state.genre,
-  genres: state.genres,
-  films: state.films,
-  isDataLoaded: state.isDataLoaded,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onSelectGenre(genre) {
-    dispatch(ActionCreator.setGenre(genre));
-  }
-});
-
-export {MainPage};
-export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
+export default MainPage;

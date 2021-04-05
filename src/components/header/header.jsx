@@ -1,23 +1,24 @@
 import * as PropTypes from 'prop-types';
-import React, {useCallback} from 'react';
-import {connect} from 'react-redux';
-import {Link, useHistory} from 'react-router-dom';
-import {AuthorizationStatus} from '../../constant';
+import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {AppRoute, AuthorizationStatus, AVATAR_SIZE} from '../../constants/constant';
 import {logOut} from '../../store/api-actions';
-import {BreadcrumbsType, HeaderClass, HeaderTitleType, UserType} from '../../types/types';
+import {selectUserData} from '../../store/user/selectors';
+import {BreadcrumbsType, HeaderClass, HeaderTitleType} from '../../types/types';
 import Logo from '../logo/logo';
 
-const AVATAR_DESCRIPTION = {
-  AVATAR_SIZE: 63,
-};
+const Header = ({title, breadcrumbs, type, showUserBlock = true}) => {
+  const {authorizationStatus, user} = useSelector(selectUserData);
 
-const Header = ({title, breadcrumbs, type, authorizationStatus, user, signOut, showUserBlock = true}) => {
+  const dispatch = useDispatch();
+
   const isLogIn = authorizationStatus === AuthorizationStatus.AUTH;
 
-  const history = useHistory();
-  const handleClick = useCallback(() => {
-    history.push(`/mylist/`);
-  });
+  const signOut = () => {
+    dispatch(logOut());
+  };
+
   const handleSignOut = (evt) => {
     evt.preventDefault();
     signOut();
@@ -41,40 +42,32 @@ const Header = ({title, breadcrumbs, type, authorizationStatus, user, signOut, s
       </nav>}
 
       {showUserBlock && <div className="user-block">
-        {isLogIn ? <>
-          <div className="user-block__avatar" onClick={handleClick}>
-            <img src={user.avatarUrl} alt={user.name} width={AVATAR_DESCRIPTION.AVATAR_SIZE}
-              height={AVATAR_DESCRIPTION.AVATAR_SIZE}/>
-          </div>
-          <a href="#" onClick={handleSignOut} className="user-block__link">Sign Out</a></> :
+        {isLogIn
+          ? <>
+            <Link className="user-block__avatar" to={AppRoute.MY_LIST}>
+              <img
+                src={user.avatarUrl}
+                alt={user.name}
+                width={AVATAR_SIZE}
+                height={AVATAR_SIZE}
+              />
+            </Link>
 
-          <Link to={`/login`} className="user-block__link">Sign in</Link>}
+            <a href="#" onClick={handleSignOut} className="user-block__link">Sign Out</a>
+          </>
+          : <Link to={`/login`} className="user-block__link">Sign in</Link>
+        }
       </div>}
     </header>
 
   );
 };
 
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
-  user: state.user,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  signOut() {
-    dispatch(logOut());
-  },
-});
-
 Header.propTypes = {
   title: HeaderTitleType,
   breadcrumbs: BreadcrumbsType,
   type: HeaderClass,
-  signOut: PropTypes.func.isRequired,
-  authorizationStatus: PropTypes.bool.isRequired,
-  showUserBlock: PropTypes.bool.isRequired,
-  user: UserType
+  showUserBlock: PropTypes.bool,
 };
 
-export {Header};
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

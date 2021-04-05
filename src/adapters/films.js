@@ -1,5 +1,5 @@
-export const filmAdapter = ({
-  id,
+export const adaptFilmData = ({
+  id = ``,
   name = ``,
   poster_image: posterImage,
   preview_image: previewImage,
@@ -18,7 +18,7 @@ export const filmAdapter = ({
   preview_video_link: previewVideoLink,
 }) => {
   return {
-    id,
+    id: id.toString(),
     name,
     posterImage,
     previewImage,
@@ -38,4 +38,4 @@ export const filmAdapter = ({
   };
 };
 
-export const filmsAdapter = (films) => films.map(filmAdapter);
+export const filmsAdapter = (films) => films.map(adaptFilmData);

@@ -1,9 +1,10 @@
 import * as PropTypes from 'prop-types';
 import React, {useMemo} from 'react';
-import {connect} from 'react-redux';
-import {Link, useParams} from 'react-router-dom';
-import {AuthorizationStatus, HeaderMode} from '../../constant';
-import {FilmsType} from '../../types/types';
+import {useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {AuthorizationStatus, HeaderMode} from '../../constants/constant';
+import {selectFilmsData} from '../../store/films-data/selectors';
+import {selectUserData} from '../../store/user/selectors';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Loader from '../loader/loading-screen';
@@ -13,8 +14,11 @@ import PageNotFound from '../page-not-found/page-not-found';
 import PlayButton from '../play-button/play-button';
 import Tabs from '../tabs/tabs';
 
-const Film = ({films, authorizationStatus, isDataLoaded}) => {
-  const {id} = useParams();
+const Film = ({match}) => {
+  const {films, isDataLoaded} = useSelector(selectFilmsData);
+  const {authorizationStatus} = useSelector(selectUserData);
+
+  const {id} = match.params;
   const film = useMemo(() => films.find((item) => String(item.id) === id), [id, films]);
   const likeThisFilms = useMemo(() => films.filter((item) => item.genre === film.genre && item.id !== film.id).sort(() => Math.random() - 0.5).slice(0, 4), [id, films]);
   const isLogIn = authorizationStatus === AuthorizationStatus.AUTH;
@@ -71,16 +75,11 @@ const Film = ({films, authorizationStatus, isDataLoaded}) => {
 };
 
 Film.propTypes = {
-  films: FilmsType,
-  isDataLoaded: PropTypes.bool.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
 };
 
-const mapStateToProps = (state) => ({
-  films: state.films,
-  isDataLoaded: state.isDataLoaded,
-  authorizationStatus: state.authorizationStatus,
-});
-
-export {Film};
-export default connect(mapStateToProps)(Film);
+export default Film;
