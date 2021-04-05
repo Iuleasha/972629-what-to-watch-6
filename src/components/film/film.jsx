@@ -1,20 +1,29 @@
+import * as PropTypes from 'prop-types';
 import React, {useMemo} from 'react';
 import {connect} from 'react-redux';
 import {Link, useParams} from 'react-router-dom';
+import {AuthorizationStatus, HeaderMode} from '../../constant';
 import {FilmsType} from '../../types/types';
-import {HeaderMode} from '../../utils/constant/constant';
 import Footer from '../footer/footer';
 import Header from '../header/header';
+import Loader from '../loader/loading-screen';
 import MoreLikeThis from '../more-like-this/more-like-this';
 import MyListButton from '../my-list-button/my-list-button';
 import PageNotFound from '../page-not-found/page-not-found';
 import PlayButton from '../play-button/play-button';
 import Tabs from '../tabs/tabs';
 
-const Film = ({films}) => {
+const Film = ({films, authorizationStatus, isDataLoaded}) => {
   const {id} = useParams();
-  const film = useMemo(() => films.find((item) => String(item.id) === id), [id]);
-  const likeThisFilms = useMemo(() => films.filter((item) => item.genre === film.genre && item.id !== film.id).sort(() => Math.random() - 0.5).slice(0, 4), [id]);
+  const film = useMemo(() => films.find((item) => String(item.id) === id), [id, films]);
+  const likeThisFilms = useMemo(() => films.filter((item) => item.genre === film.genre && item.id !== film.id).sort(() => Math.random() - 0.5).slice(0, 4), [id, films]);
+  const isLogIn = authorizationStatus === AuthorizationStatus.AUTH;
+
+  if (!isDataLoaded) {
+    return (
+      <Loader/>
+    );
+  }
 
   return (film ? <>
     <section className="movie-card movie-card--full">
@@ -22,6 +31,7 @@ const Film = ({films}) => {
         <div className="movie-card__bg">
           <img src={film.backgroundImage} alt={film.name}/>
         </div>
+
         <h1 className="visually-hidden">WTW</h1>
 
         <Header type={HeaderMode.MOVIE_CARD}/>
@@ -36,9 +46,9 @@ const Film = ({films}) => {
             <div className="movie-card__buttons">
               <PlayButton id={film.id}/>
 
-              <MyListButton/>
+              <MyListButton id={film.id} isFavorite={film.isFavorite}/>
 
-              <Link to={`/films/${film.id}/review`} className="btn movie-card__button">Add review</Link>
+              {isLogIn && <Link to={`/films/${film.id}/review`} className="btn movie-card__button">Add review</Link>}
             </div>
           </div>
         </div>
@@ -60,10 +70,16 @@ const Film = ({films}) => {
   </> : <PageNotFound/>);
 };
 
-Film.propTypes = {films: FilmsType};
+Film.propTypes = {
+  films: FilmsType,
+  isDataLoaded: PropTypes.bool.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   films: state.films,
+  isDataLoaded: state.isDataLoaded,
+  authorizationStatus: state.authorizationStatus,
 });
 
 export {Film};

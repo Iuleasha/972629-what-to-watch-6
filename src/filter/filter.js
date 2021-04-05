@@ -1,18 +1,12 @@
-import {DEFAULT_GENRE} from '../utils/constant/constant';
+import {DEFAULT_GENRE} from '../constant';
 
 export const createGenreArray = (films) => {
-  let genresArray = [];
+  const genresArray = [...new Set(films.map((film) => film.genre))].sort();
 
-  films.forEach((film) => {
-    if (!genresArray.includes(film.genre)) {
-      genresArray.push(film.genre);
-    }
-  });
-
-  return [DEFAULT_GENRE, ...genresArray.sort()];
+  return [DEFAULT_GENRE, ...genresArray];
 };
 
-export const createGenreType = (films, genre) => {
+export const sortByGenre = (films, genre) => {
   return genre === DEFAULT_GENRE ? films : films.filter((item) => item.genre === genre);
 };
 

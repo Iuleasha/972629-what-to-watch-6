@@ -1,0 +1,41 @@
+export const filmAdapter = ({
+  id,
+  name = ``,
+  poster_image: posterImage,
+  preview_image: previewImage,
+  background_image: backgroundImage,
+  background_color: backgroundColor,
+  description = ``,
+  rating = 0,
+  scores_count: scoresCount = 0,
+  director = ``,
+  starring: starring = [],
+  run_time: runTime = 0,
+  genre,
+  released,
+  is_favorite: isFavorite = false,
+  video_link: videoLink,
+  preview_video_link: previewVideoLink,
+}) => {
+  return {
+    id,
+    name,
+    posterImage,
+    previewImage,
+    backgroundImage,
+    backgroundColor,
+    description,
+    rating,
+    scoresCount,
+    director,
+    starring,
+    runTime,
+    genre,
+    released,
+    isFavorite,
+    videoLink,
+    previewVideoLink,
+  };
+};
+
+export const filmsAdapter = (films) => films.map(filmAdapter);

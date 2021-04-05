@@ -23,8 +23,6 @@ export const FilmType = PropTypes.shape({
 
 export const FilmsType = PropTypes.arrayOf(FilmType);
 
-export const ReviewType = PropTypes.number.isRequired;
-
 export const LogoLight = PropTypes.bool;
 
 export const HeaderTitleType = PropTypes.string;
@@ -41,4 +39,9 @@ export const GenresType = PropTypes.arrayOf(PropTypes.string);
 
 export const HandleSubmitType = PropTypes.func.isRequired;
 export const HandleFieldChangeType = PropTypes.func.isRequired;
+
+export const UserType = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  avatarUrl: PropTypes.string.isRequired,
+});
 
