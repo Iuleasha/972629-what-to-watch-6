@@ -5,7 +5,7 @@ import SmallMovieCard from '../small-movie-card/small-movie-card';
 const MovieList = ({films}) => {
   return <div className="catalog__movies-list">
     {!films.length && <h3>No films</h3>}
-    {films.map((item) => <SmallMovieCard film={item} key={item.id}/>)}
+    {films.map((film) => <SmallMovieCard film={film} key={film.id}/>)}
   </div>;
 
 };

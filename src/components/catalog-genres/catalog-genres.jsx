@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {ActiveFilter, GenresType, OnSelectGenre} from '../../types/types';
 
 const CatalogGenres = ({onSelectGenre, activeFilter, genres}) => {
+  const getStyles = useCallback((genre) => `catalog__genres-item ${activeFilter === genre
+    ? `catalog__genres-item--active` : ``}`, [activeFilter]);
+
   return <ul className="catalog__genres-list">
-    {genres.map((item) => <li key={item}
-      className={`catalog__genres-item ${activeFilter === item ? `catalog__genres-item--active` : ``}`}>
-      <a className="catalog__genres-link" onClick={() => onSelectGenre(item)}>{item}</a>
+    {genres.map((genre) => <li key={genre}
+      className={getStyles(genre)}>
+      <a className="catalog__genres-link" onClick={() => onSelectGenre(genre)}>{genre}</a>
     </li>)}
   </ul>;
 };

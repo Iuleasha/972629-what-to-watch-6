@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
-import {useDebounce} from '../../hooks/debounce';
+import {useHistory} from 'react-router-dom';
+import {AppRoute} from '../../constants/constant';
 import {FilmType} from '../../types/types';
 import VideoPlayer from '../video-player/video-player';
 
@@ -8,31 +8,46 @@ const ImageSize = {
   WIDTH: 280,
   HEIGHT: 175,
 };
+
 const PLAYBACK_DELAY = 1000;
 
-const SmallMovieCard = (props) => {
-  const {film} = props;
-  const [isHovered, hover] = useState(false);
-  const [isPreviewStart, showPreview] = useState(false);
-  const debouncedSearchTerm = useDebounce(isHovered, PLAYBACK_DELAY);
+const SmallMovieCard = ({film}) => {
+  let timeoutId;
+  const [isPreviewStart, setIsPreviewStart] = useState(false);
+  const {push} = useHistory();
+
   const handleMouseEnter = useCallback(() => {
-    hover(true);
-  }, []);
+    clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(() => {
+      setIsPreviewStart(true);
+    }, PLAYBACK_DELAY);
+  }, [isPreviewStart]);
+
   const handleMouseLeave = useCallback(() => {
-    hover(false);
-    showPreview(false);
+    clearTimeout(timeoutId);
+
+    setIsPreviewStart(false);
+  }, [isPreviewStart]);
+
+  const handlerRouteToFilm = useCallback((evt) => {
+    evt.preventDefault();
+    clearTimeout(timeoutId);
+
+    push(`${AppRoute.FILMS}/${film.id}`);
   }, []);
 
   useEffect(() => {
-    showPreview(isHovered);
-  }, [debouncedSearchTerm]);
+    clearTimeout(timeoutId);
+  }, [!isPreviewStart]);
 
   return (
     <article className="small-movie-card catalog__movies-card"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handlerRouteToFilm}
     >
-      <Link to={`/films/${film.id}`} className="small-movie-card__link">
+      <a href="#" className="small-movie-card__link">
         <div className="small-movie-card__image">
           {isPreviewStart &&
           <VideoPlayer src={film.previewVideoLink} hasCustomControls={false} isAutoPlay={true} isMuted={true}/>}
@@ -42,7 +57,7 @@ const SmallMovieCard = (props) => {
         <h3 className="small-movie-card__title">
           <span>{film.name}</span>
         </h3>
-      </Link>
+      </a>
     </article>
   );
 };

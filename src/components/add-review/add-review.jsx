@@ -1,13 +1,14 @@
-import React, {useState} from 'react';
-import {connect} from 'react-redux';
-import {useParams} from 'react-router-dom';
-import {PosterSize} from '../../constant';
-import {FilmsType} from '../../types/types';
+import * as PropTypes from 'prop-types';
+import React, {useMemo, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {PosterSize} from '../../constants/constant';
+import {selectFilmsData} from '../../store/films-data/selectors';
 import ReviewForm from '../add-review-form/add-review-form';
 import Header from '../header/header';
 
-const AddReview = ({films}) => {
-  const {id} = useParams();
+const AddReview = ({match}) => {
+  const {id} = match.params;
+  const {films} = useSelector(selectFilmsData);
 
   const [reviewForm, setReviewForm] = useState({
     rating: ``,
@@ -24,7 +25,7 @@ const AddReview = ({films}) => {
     setReviewForm({...reviewForm, [name]: value});
   };
 
-  const {name, posterImage, backgroundImage} = films.find((item) => String(item.id) === id);
+  const {name, posterImage, backgroundImage} = useMemo(() => films.find((item) => String(item.id) === id), [id]);
 
   return (<section className="movie-card movie-card--full">
     <div className="movie-card__header">
@@ -41,16 +42,17 @@ const AddReview = ({films}) => {
       </div>
     </div>
 
-    <ReviewForm handleSubmit={handleSubmit} handleFieldChange={handleFieldChange}/>
+    <ReviewForm handleSubmit={handleSubmit} handleFieldChange={handleFieldChange} filmId={id}/>
   </section>
   );
 };
 
-AddReview.propTypes = {films: FilmsType};
+AddReview.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
+};
 
-const mapStateToProps = (state) => ({
-  films: state.films,
-});
-
-export {AddReview};
-export default connect(mapStateToProps)(AddReview);
+export default AddReview;

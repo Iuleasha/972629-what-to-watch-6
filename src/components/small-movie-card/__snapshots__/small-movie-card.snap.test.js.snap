@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should Tabs render correctly 1`] = `
+<div>
+  <article
+    class="small-movie-card catalog__movies-card"
+  >
+    <a
+      class="small-movie-card__link"
+      href="#"
+    >
+      <div
+        class="small-movie-card__image"
+      >
+        <img
+          alt="The Grand Budapest Hotel"
+          height="175"
+          src="img/the-grand-budapest-hotel-poster.jpg"
+          width="280"
+        />
+      </div>
+      <h3
+        class="small-movie-card__title"
+      >
+        <span>
+          The Grand Budapest Hotel
+        </span>
+      </h3>
+    </a>
+  </article>
+</div>
+`;
