@@ -3,8 +3,8 @@ import {FilmType} from '../../types/types';
 import {formatTotalDuration} from '../../utils/utils';
 
 const Details = ({film}) => {
-  const starring = film.starring.map((item, index, array) => <span
-    key={`details-starring-${index}`}>{item}{index < array.length - 1 ? `, ` : ``} <br/></span>);
+  const starring = film.starring.map((actor, index, array) => <span
+    key={`details-${actor}`}>{actor}{index < array.length - 1 ? `, ` : ``} <br/></span>);
   const runTime = formatTotalDuration(film.runTime);
 
   return (<>

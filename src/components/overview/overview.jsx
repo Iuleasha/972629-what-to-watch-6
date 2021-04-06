@@ -4,7 +4,7 @@ import {generateRating} from '../../utils/utils';
 
 
 const Overview = ({film}) => {
-  const starring = film.starring.map((item, index, array) => <span key={`overview-starring-${index}`}>{item}{index < array.length - 1 ? `, ` : ``}</span>);
+  const starring = film.starring.map((actor, index, array) => <span key={`starring-${actor}`}>{actor}{index < array.length - 1 ? `, ` : ``}</span>);
   const rating = generateRating(film.rating);
 
   return (
